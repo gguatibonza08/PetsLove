@@ -6,6 +6,7 @@
     <string name="contrasenaLogin">Contraseña</string>
     <string name="registroLogin">Registro</string>
     <string name="ingresarLogin">Ingresar</string>
+    <string name="tokenGoogle">525376722538-voaklmsc2g2q8vv6133fe30s3ndvcfv8.apps.googleusercontent.com</string>
 
 
 </resources>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?><!DOCTYPE RelativeLayout [<!ELEMENT RelativeLayout (android.support.v7.widget.CardView|ImageView)*><!ATTLIST RelativeLayoutxmlns:android CDATA #REQUIREDxmlns:app CDATA #REQUIREDxmlns:tools CDATA #REQUIREDandroid:layout_width CDATA #REQUIREDandroid:layout_height CDATA #REQUIREDtools:context CDATA #REQUIRED><!ELEMENT android.support.v7.widget.CardView (LinearLayout)*><!ATTLIST android.support.v7.widget.CardViewandroid:id CDATA #REQUIREDandroid:layout_width CDATA #REQUIREDandroid:layout_height CDATA #REQUIREDandroid:layout_centerInParent CDATA #REQUIREDandroid:layout_marginLeft CDATA #REQUIREDandroid:layout_marginRight CDATA #REQUIREDapp:cardBackgroundColor CDATA #REQUIREDapp:cardCornerRadius CDATA #REQUIREDapp:cardElevation CDATA #REQUIRED><!ELEMENT LinearLayout (android.support.design.widget.TextInputLayout|LinearLayout|Button|com.google.android.gms.common.SignInButton)*><!ATTLIST LinearLayoutandroid:gravity CDATA #IMPLIEDandroid:layout_gravity CDATA #IMPLIEDandroid:layout_height CDATA #REQUIREDandroid:layout_margin CDATA #IMPLIEDandroid:layout_width CDATA #REQUIREDandroid:orientation CDATA #REQUIRED><!ELEMENT android.support.design.widget.TextInputLayout (EditText)*><!ATTLIST android.support.design.widget.TextInputLayoutandroid:hint CDATA #REQUIREDandroid:layout_height CDATA #REQUIREDandroid:layout_marginBottom CDATA #REQUIREDandroid:layout_marginLeft CDATA #REQUIREDandroid:layout_marginRight CDATA #REQUIREDandroid:layout_marginTop CDATA #IMPLIEDandroid:layout_width CDATA #REQUIREDandroid:textColor CDATA #REQUIREDandroid:textColorHint CDATA #REQUIREDapp:passwordToggleEnabled CDATA #IMPLIEDapp:passwordToggleTint CDATA #IMPLIED><!ELEMENT EditText (#PCDATA)><!ATTLIST EditTextandroid:fontFamily CDATA #REQUIREDandroid:id CDATA #REQUIREDandroid:inputType CDATA #REQUIREDandroid:layout_height CDATA #REQUIREDandroid:layout_width CDATA #REQUIREDandroid:textColor CDATA #REQUIRED><!ELEMENT Button (#PCDATA)><!ATTLIST Buttonandroid:fontFamily CDATA #REQUIREDandroid:id CDATA #REQUIREDandroid:layout_height CDATA #REQUIREDandroid:layout_margin CDATA #REQUIREDandroid:layout_width CDATA #REQUIREDandroid:text CDATA #REQUIREDandroid:textColor CDATA #REQUIREDandroid:textSize CDATA #REQUIREDandroid:textStyle CDATA #REQUIRED><!ELEMENT com.google.android.gms.common.SignInButton (#PCDATA)><!ATTLIST com.google.android.gms.common.SignInButtonandroid:id CDATA #REQUIREDandroid:layout_width CDATA #REQUIREDandroid:layout_height CDATA #REQUIREDandroid:layout_gravity CDATA #REQUIREDandroid:layout_marginBottom CDATA #REQUIREDandroid:layout_marginTop CDATA #REQUIRED><!ELEMENT ImageView (#PCDATA)><!ATTLIST ImageViewandroid:layout_width CDATA #REQUIREDandroid:layout_height CDATA #REQUIREDandroid:layout_alignParentTop CDATA #REQUIREDandroid:layout_centerHorizontal CDATA #REQUIREDandroid:layout_gravity CDATA #REQUIREDandroid:layout_marginTop CDATA #REQUIREDandroid:elevation CDATA #REQUIREDandroid:src CDATA #REQUIRED>]>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        app:cardBackgroundColor="@color/colorPrimary"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="2dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="50dp"
+                android:hint="@string/correoLogin"
+                android:labelFor="@id/correoLoginActivity"
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/colorAccent">
+
+                <EditText
+                    android:id="@+id/correoLoginActivity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/magnificent"
+                    android:inputType="textEmailAddress"
+                    android:textColor="@color/colorAccent" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:hint="@string/contrasenaLogin"
+                android:labelFor="@id/contrasenaLoginActivity"
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/colorAccent"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/colorCafesito">
+
+                <EditText
+                    android:id="@+id/contrasenaLoginActivity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/magnificent"
+                    android:inputType="textPassword"
+                    android:textColor="@color/colorAccent" />
+            </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/registroLoginActivity"
+                    android:layout_width="140dp"
+                    android:layout_height="55dp"
+                    android:layout_margin="5dp"
+                    android:fontFamily="@font/magnificent"
+                    android:text="@string/registroLogin"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/ingresarLoginActivity"
+                    android:layout_width="140dp"
+                    android:layout_height="55dp"
+                    android:layout_margin="5dp"
+                    android:fontFamily="@font/magnificent"
+                    android:text="@string/ingresarLogin"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <com.google.android.gms.common.SignInButton
+                android:id="@+id/googleLoginActivity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp" />
+
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <ImageView
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:elevation="3dp"
+        android:src="@drawable/login_imagen" />
+
+</RelativeLayout>

@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">PetsLovers</string>
+
+    //login Activity
+    <string name="correoLogin">Correo</string>
+    <string name="contrasenaLogin">Contraseña</string>
+    <string name="registroLogin">Registro</string>
+    <string name="ingresarLogin">Ingresar</string>
+
+
+</resources>

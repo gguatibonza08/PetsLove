@@ -7,6 +7,17 @@
     <string name="registroLogin">Registro</string>
     <string name="ingresarLogin">Ingresar</string>
     <string name="errorSesion">Error al Iniciar sesión</string>
+    <string name="novalido">Usuario o Contraseña no validos</string>
+
+
+
+
+
+
+    //Urls de acceso al webServices.
+
+    //LOGIN ACTIVITY
+    <string name="loginManual">http://192.163.185.62:8080/loginUsuario</string>
 
 
 </resources>

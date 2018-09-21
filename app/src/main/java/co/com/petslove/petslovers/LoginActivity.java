@@ -1,10 +1,13 @@
 package co.com.petslove.petslovers;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,7 +15,6 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
@@ -21,6 +23,19 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.gson.Gson;
+
+import java.io.IOException;
+
+import co.com.petslove.petslovers.model.RespuestaRest;
+import co.com.petslove.petslovers.model.Usuario;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
@@ -30,16 +45,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private SignInButton google;
     private EditText correoUsuario, contrasenaUsuario;
     private GoogleApiClient googleApiClient;
-
+    private boolean logueado = false;
     public static final int SIGN_IN_CODE = 777;
 
     @Override
     protected void onStart() {
         super.onStart();
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        if (account == null) {
-
-        } else {
+        SharedPreferences preferences = getSharedPreferences("credenciales", Context.MODE_PRIVATE);
+        logueado = preferences.getBoolean("logeado", false);
+        // GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        if (logueado == true) {
 
         }
     }
@@ -49,11 +64,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         referencias();
-
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
-
         googleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
@@ -63,16 +76,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void referencias() {
         registro = findViewById(R.id.registroLoginActivity);
         ingreso = findViewById(R.id.ingresarLoginActivity);
-
         loginLayout = findViewById(R.id.layoutLogin);
-
         google = findViewById(R.id.googleLoginActivity);
         google.setSize(SignInButton.SIZE_WIDE);
         google.setColorScheme(SignInButton.COLOR_DARK);
-
         correoUsuario = findViewById(R.id.correoLoginActivity);
         contrasenaUsuario = findViewById(R.id.contrasenaLoginActivity);
-
         google.setOnClickListener(this);
         registro.setOnClickListener(this);
         ingreso.setOnClickListener(this);
@@ -86,7 +95,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == SIGN_IN_CODE) {
             GoogleSignInResult resultado = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(resultado);
@@ -94,13 +102,27 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void handleSignInResult(GoogleSignInResult resultado) {
-
         if (resultado.isSuccess()) {
             GoogleSignInAccount account = resultado.getSignInAccount();
+            crearPreferencias(account.getDisplayName(), account.getEmail(), account.getPhotoUrl().toString());
+            goMain();
         } else {
             Snackbar.make(loginLayout, getString(R.string.errorSesion), Snackbar.LENGTH_LONG).show();
         }
+    }
 
+    private void goMain() {
+    }
+
+    private void crearPreferencias(String nombre, String correo, String foto) {
+        SharedPreferences preferences = getSharedPreferences("credenciales", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        logueado = true;
+        editor.putBoolean("logeado", logueado);
+        editor.putString("correo", correo);
+        editor.putString("nombre", nombre);
+        editor.putString("fotoperfil", foto);
+        editor.commit();
     }
 
     @Override
@@ -109,14 +131,66 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.googleLoginActivity:
                 signIn();
                 break;
+
             case R.id.registroLoginActivity:
-                logOut();
+                Intent intent = new Intent(this, RegistroActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                //logOut();
                 break;
 
             case R.id.ingresarLoginActivity:
-                revocar();
+                //revocar();
+                loginManual();
                 break;
         }
+    }
+
+    private void loginManual() {
+        String correoUs = correoUsuario.getText().toString();
+        String contrasenaUs = contrasenaUsuario.getText().toString();
+
+        Log.e("correo", correoUs);
+        Log.e("pass", contrasenaUs);
+
+        OkHttpClient cliente = new OkHttpClient();
+        RequestBody formBody = new FormBody.Builder()
+                .add("password", contrasenaUs)
+                .add("correo", correoUs)
+                .build();
+        Request request = new Request.Builder()
+                .url(getString(R.string.loginManual))
+                .post(formBody)
+                .build();
+
+        cliente.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Snackbar.make(loginLayout, "Fallo la conexión", Snackbar.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String rta = response.body().string();
+                    Gson gson = new Gson();
+                    RespuestaRest respuesta = gson.fromJson(rta, RespuestaRest.class);
+                    Usuario user = respuesta.getUser();
+                    crearPreferencias(user.getNombre(), user.getCorreo(), "");
+
+                    if (respuesta.isConfirmacion()) {
+                        goMain();
+                    } else {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Snackbar.make(loginLayout, getString(R.string.novalido), Snackbar.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                }
+            }
+        });
 
     }
 

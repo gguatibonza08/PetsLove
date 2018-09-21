@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,19 +22,6 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-import com.google.gson.Gson;
-
-import java.io.IOException;
-
-import co.com.petslove.petslovers.model.RespuestaRest;
-import co.com.petslove.petslovers.model.Usuario;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
@@ -55,7 +41,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         logueado = preferences.getBoolean("logeado", false);
         // GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         if (logueado == true) {
-
+            goMain();
         }
     }
 
@@ -112,6 +98,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void goMain() {
+        Intent i = new Intent(getApplicationContext(), RegistroActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(i);
     }
 
     private void crearPreferencias(String nombre, String correo, String foto) {
@@ -133,9 +122,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
 
             case R.id.registroLoginActivity:
-                Intent intent = new Intent(this, RegistroActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+                // Intent intent = new Intent(this, RegistroActivity.class);
+                // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                // startActivity(intent);
                 //logOut();
                 break;
 
@@ -149,11 +138,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void loginManual() {
         String correoUs = correoUsuario.getText().toString();
         String contrasenaUs = contrasenaUsuario.getText().toString();
-
-        Log.e("correo", correoUs);
-        Log.e("pass", contrasenaUs);
-
-        OkHttpClient cliente = new OkHttpClient();
+        //mientras conecto el web services
+        crearPreferencias(contrasenaUs, correoUs, "");
+        goMain();
+       /* OkHttpClient cliente = new OkHttpClient();
         RequestBody formBody = new FormBody.Builder()
                 .add("password", contrasenaUs)
                 .add("correo", correoUs)
@@ -176,9 +164,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     Gson gson = new Gson();
                     RespuestaRest respuesta = gson.fromJson(rta, RespuestaRest.class);
                     Usuario user = respuesta.getUser();
-                    crearPreferencias(user.getNombre(), user.getCorreo(), "");
+
 
                     if (respuesta.isConfirmacion()) {
+                        crearPreferencias(user.getNombre(), user.getCorreo(), "");
                         goMain();
                     } else {
                         runOnUiThread(new Runnable() {
@@ -190,7 +179,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     }
                 }
             }
-        });
+        });*/
 
     }
 

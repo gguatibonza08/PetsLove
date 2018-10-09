@@ -9,13 +9,24 @@
     <string name="errorSesion">Error al Iniciar sesión</string>
     <string name="novalido">Usuario o Contraseña no validos</string>
 
+    //Registro Activity
+    <string name="nombreRegistro">Nombre</string>
+    <string name="ApellidoRegistro">Apellido</string>
+    <string name="correoRegistro">Correo</string>
+    <string name="contrasenaRegistro">Contraseña</string>
+    <string name="accionRegistro">Registrarse</string>
 
 
-
+    <string name="title_activity_main">PetsLovers</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
 
 
     //Urls de acceso al webServices.
-
     //LOGIN ACTIVITY
     <string name="loginManual">http://192.163.185.62:8080/loginUsuario</string>
 

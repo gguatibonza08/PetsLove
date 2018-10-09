@@ -1,6 +1,8 @@
-package co.com.petslove.petslovers.model;
+package co.com.petslove.petslovers.model.rtaWS;
 
 import java.math.BigInteger;
+
+import co.com.petslove.petslovers.model.Usuario;
 
 public class RespuestaRest {
     private int codigoRespuesta;

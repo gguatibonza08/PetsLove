@@ -98,7 +98,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void goMain() {
-        Intent i = new Intent(getApplicationContext(), RegistroActivity.class);
+        Intent i = new Intent(getApplicationContext(), MainActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(i);
     }
@@ -122,9 +122,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
 
             case R.id.registroLoginActivity:
-                // Intent intent = new Intent(this, RegistroActivity.class);
-                // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                // startActivity(intent);
+                Intent intent = new Intent(this, RegistroActivity.class);
+                startActivity(intent);
                 //logOut();
                 break;
 

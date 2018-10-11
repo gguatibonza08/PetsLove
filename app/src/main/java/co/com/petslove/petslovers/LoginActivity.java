@@ -27,6 +27,7 @@ import com.google.android.gms.common.api.Status;
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
     private Button registro, ingreso;
+    private String code;
     private RelativeLayout loginLayout;
     private SignInButton google;
     private EditText correoUsuario, contrasenaUsuario;
@@ -124,11 +125,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.registroLoginActivity:
                 Intent intent = new Intent(this, RegistroActivity.class);
                 startActivity(intent);
-                //logOut();
                 break;
 
             case R.id.ingresarLoginActivity:
-                //revocar();
                 loginManual();
                 break;
         }
@@ -137,10 +136,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void loginManual() {
         String correoUs = correoUsuario.getText().toString();
         String contrasenaUs = contrasenaUsuario.getText().toString();
+        code = getString(R.string.codeFoto);
         //mientras conecto el web services
-        crearPreferencias(contrasenaUs, correoUs, "");
+        crearPreferencias(contrasenaUs, correoUs, code);
         goMain();
-       /* OkHttpClient cliente = new OkHttpClient();
+      /*  OkHttpClient cliente = new OkHttpClient();
         RequestBody formBody = new FormBody.Builder()
                 .add("password", contrasenaUs)
                 .add("correo", correoUs)
@@ -161,21 +161,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 if (response.isSuccessful()) {
                     String rta = response.body().string();
                     Gson gson = new Gson();
-                    RespuestaRest respuesta = gson.fromJson(rta, RespuestaRest.class);
-                    Usuario user = respuesta.getUser();
+                    final RespuestaRest respuesta = gson.fromJson(rta, RespuestaRest.class);
+                    final Usuario user = respuesta.getUser();
 
-
-                    if (respuesta.isConfirmacion()) {
-                        crearPreferencias(user.getNombre(), user.getCorreo(), "");
-                        goMain();
-                    } else {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (respuesta.isConfirmacion()) {
+                                crearPreferencias(user.getNombre(), user.getCorreo(), user.getPerfil());
+                                goMain();
+                            } else {
                                 Snackbar.make(loginLayout, getString(R.string.novalido), Snackbar.LENGTH_LONG).show();
                             }
-                        });
-                    }
+                        }
+                    });
                 }
             }
         });*/

@@ -24,14 +24,19 @@ public class Usuario implements Serializable {
     @SerializedName("ventas")
     @Expose
     private int ventas;
+    @SerializedName("perfil")
+    @Expose
+    private String perfil;
 
-    public Usuario(int idUsuario, String nombre, String correo, String contraseña, int calificacion, int ventas) {
+
+    public Usuario(int idUsuario, String nombre, String correo, String contraseña, int calificacion, int ventas, String perfil) {
         this.idUsuario = idUsuario;
         this.nombre = nombre;
         this.correo = correo;
         this.contraseña = contraseña;
         this.calificacion = calificacion;
         this.ventas = ventas;
+        this.perfil = perfil;
     }
 
     public Usuario() {
@@ -84,5 +89,13 @@ public class Usuario implements Serializable {
 
     public void setIdUsuario(int idUsuario) {
         this.idUsuario = idUsuario;
+    }
+
+    public String getPerfil() {
+        return perfil;
+    }
+
+    public void setPerfil(String perfil) {
+        this.perfil = perfil;
     }
 }

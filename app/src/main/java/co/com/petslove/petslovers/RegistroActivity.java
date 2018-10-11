@@ -107,8 +107,6 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
                 } else {
                     Snackbar.make(v, "La contraseña no coinciden", Snackbar.LENGTH_LONG).show();
                 }
-
-
                 break;
             case R.id.fotoRegistro:
                 cargarImagen();

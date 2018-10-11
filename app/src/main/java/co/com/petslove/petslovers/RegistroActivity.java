@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -80,7 +81,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
                 code = Base64.encodeToString(b, Base64.DEFAULT);
                 registrar.setEnabled(true);
 
-                /*byte[] decodedBytes = Base64.decode(encode.getBytes(), Base64.DEFAULT);
+                /*byte[] decodedBytes = Base64.decode(code.getBytes(), Base64.DEFAULT);
                 Bitmap bn = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
                 bn.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                 prueba.setImageBitmap(bn);*/

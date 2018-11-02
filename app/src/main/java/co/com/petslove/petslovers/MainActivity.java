@@ -57,15 +57,15 @@ public class MainActivity extends AppCompatActivity
                 switch (item.getItemId()) {
                     case R.id.ic_home:
                         filtro.setVisibility(View.VISIBLE);
-                        transaction.replace(R.id.mainFrame, home);
+                        transaction.replace(R.id.mainFrame, home).commit();
                         break;
                     case R.id.ic_search:
                         filtro.setVisibility(View.GONE);
-                        transaction.replace(R.id.mainFrame, search);
+                        transaction.replace(R.id.mainFrame, search).commit();
                         break;
                     case R.id.ic_profile:
                         filtro.setVisibility(View.GONE);
-                        transaction.replace(R.id.mainFrame, profile);
+                        transaction.replace(R.id.mainFrame, profile).commit();
                         break;
                 }
             }
@@ -103,11 +103,10 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {

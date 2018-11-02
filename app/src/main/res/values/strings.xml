@@ -37,6 +37,13 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="veterinarias">Veterinarias</string>
+    <string name="paseadores">Paseadores</string>
+    <string name="alimento">Alimento</string>
+    <string name="estilistas">Estilistas</string>
+    <string name="name_saler">Gian Guatibonza</string>
+    <string name="city_sale">BUCARAMANGA</string>
+    <string name="price_sale">$ 150.000</string>
 
 
 </resources>

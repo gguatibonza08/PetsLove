@@ -1,28 +1,17 @@
 package co.com.petslove.petslovers.fragments;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-
-import java.io.ByteArrayOutputStream;
 
 import co.com.petslove.petslovers.R;
 
-import static android.content.Context.MODE_PRIVATE;
-
 public class home extends Fragment {
     private OnFragmentInteractionListener mListener;
-    private ImageView prueba;
     private String url;
 
     public home() {
@@ -49,15 +38,12 @@ public class home extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        prueba = view.findViewById(R.id.fotoprueba);
-        SharedPreferences preferences = getActivity().getSharedPreferences("credenciales", MODE_PRIVATE);
-        url = preferences.getString("fotoperfil", "");
-        Log.e("prueba", url);
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        /*ByteArrayOutputStream baos = new ByteArrayOutputStream();
         byte[] decodedBytes = Base64.decode(url.getBytes(), Base64.DEFAULT);
         Bitmap bn = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
         bn.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        prueba.setImageBitmap(bn);
+        prueba.setImageBitmap(bn);*/
         return view;
     }
 

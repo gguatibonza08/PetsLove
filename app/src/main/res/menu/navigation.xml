@@ -7,6 +7,13 @@
         android:title="@string/home"
 
         />
+
+    <item
+        android:id="@+id/ic_ventaAdopcion"
+        android:icon="@drawable/veterinary"
+        android:title="@string/home"
+
+        />
     <item
         android:id="@+id/ic_search"
         android:icon="@drawable/search"

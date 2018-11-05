@@ -16,13 +16,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import co.com.petslove.petslovers.fragments.RedSocial;
 import co.com.petslove.petslovers.fragments.home;
 import co.com.petslove.petslovers.fragments.profile;
 import co.com.petslove.petslovers.fragments.search;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, home.OnFragmentInteractionListener, profile.OnFragmentInteractionListener, search.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, home.OnFragmentInteractionListener, profile.OnFragmentInteractionListener, search.OnFragmentInteractionListener, RedSocial.OnFragmentInteractionListener {
 
+    private RedSocial redSocial;
     private CardView filtro;
     private Button perro, gato, vaca, cerdo, pez, ave, caballo, oveja;
     private BottomNavigationView menuInferior;
@@ -47,7 +49,8 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        getSupportFragmentManager().beginTransaction().add(R.id.mainFrame, home).commit();
+        filtro.setVisibility(View.GONE);
+        getSupportFragmentManager().beginTransaction().add(R.id.mainFrame, redSocial).commit();
 
 
         menuInferior.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
@@ -56,6 +59,10 @@ public class MainActivity extends AppCompatActivity
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 switch (item.getItemId()) {
                     case R.id.ic_home:
+                        filtro.setVisibility(View.GONE);
+                        transaction.replace(R.id.mainFrame, redSocial).commit();
+                        break;
+                    case R.id.ic_ventaAdopcion:
                         filtro.setVisibility(View.VISIBLE);
                         transaction.replace(R.id.mainFrame, home).commit();
                         break;
@@ -75,6 +82,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void referenciar() {
+        redSocial = new RedSocial();
         home = new home();
         search = new search();
         profile = new profile();

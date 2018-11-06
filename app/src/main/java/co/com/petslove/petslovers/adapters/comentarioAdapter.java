@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import co.com.petslove.petslovers.R;
 import co.com.petslove.petslovers.model.ComentarioPojo;
@@ -20,10 +21,10 @@ public class comentarioAdapter extends RecyclerView.Adapter<comentarioAdapter.Vi
 
 
     private Context context;
-    private ArrayList<ComentarioPojo> listaComentarios;
+    private List<ComentarioPojo> listaComentarios;
     private View.OnClickListener listener;
 
-    public comentarioAdapter(Context context, ArrayList<ComentarioPojo> listaComentarios) {
+    public comentarioAdapter(Context context, List<ComentarioPojo> listaComentarios) {
         this.context = context;
         this.listaComentarios = listaComentarios;
     }

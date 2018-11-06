@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import co.com.petslove.petslovers.R;
@@ -39,8 +38,8 @@ public class comentarioAdapter extends RecyclerView.Adapter<comentarioAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull comentarioAdapter.ViewHolder holder, int position) {
-        holder.nombreUsuario.setText(listaComentarios.get(position).getUsuario()+"");
-        Picasso.get().load(listaComentarios.get(position).getUsuario()+"").into(holder.perfilUsuario);
+        holder.nombreUsuario.setText(listaComentarios.get(position).getNombreUsuario());
+        Picasso.get().load(listaComentarios.get(position).getFotoUsuario()).into(holder.perfilUsuario);
         holder.fechaComentario.setText(listaComentarios.get(position).getFechaComentario());
         holder.contenido.setText(listaComentarios.get(position).getContenido());
     }

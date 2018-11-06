@@ -5,19 +5,19 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
+            android:id="@+id/veterinarias"
             android:icon="@drawable/veterinary"
             android:title="@string/veterinarias" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/paseadores"
             android:icon="@drawable/paseador"
             android:title="@string/paseadores" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/alimentos"
             android:icon="@drawable/petfood"
             android:title="@string/alimento" />
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/estilistas"
             android:icon="@drawable/sterilization"
             android:title="@string/estilistas" />
     </group>

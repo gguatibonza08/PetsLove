@@ -1,12 +1,26 @@
-package com.Servicios.kevin.pojos;
+package co.com.petslove.petslovers.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 import java.math.BigInteger;
 
-public class ComentarioPojo {
+public class ComentarioPojo implements Serializable {
+    @SerializedName("comentarioId")
+    @Expose
 	private BigInteger comentarioId;
+    @SerializedName("usuario")
+    @Expose
 	private BigInteger usuario;
+    @SerializedName("contenido")
+    @Expose
 	private String contenido;
+    @SerializedName("fechaComentario")
+    @Expose
 	private String fechaComentario;
+    @SerializedName("publicacion")
+    @Expose
 	private BigInteger publicacion;
 	
 	public ComentarioPojo() {

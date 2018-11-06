@@ -1,22 +1,40 @@
-package com.Servicios.kevin.pojos;
+package co.com.petslove.petslovers.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 
-import com.Servicios.kevin.entities.Comentario;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-public class PublicacionPojo {
+public class PublicacionPojo implements Serializable {
+	@SerializedName("publicacionId")
+	@Expose
 	private BigInteger	publicacionId;
+	@SerializedName("horaPublicacion")
+	@Expose
 	private Date horaPublicacion;
+	@SerializedName("descripcion")
+	@Expose
 	private String descripcion;
+	@SerializedName("usuario")
+	@Expose
 	private BigInteger usuario;
+	@SerializedName("fotoUsuario")
+	@Expose
 	private String fotoUsuario;
+	@SerializedName("nombreUsuario")
+	@Expose
 	private String nombreUsuario;
-	@JsonIgnore
-	private List<Comentario> comentarios;
+	@SerializedName("comentarios")
+	@Expose
+	private List<ComentarioPojo> comentarios;
+	@SerializedName("foto")
+	@Expose
 	private String foto;
+	@SerializedName("likes")
+	@Expose
 	private Integer likes;
 	
 	public PublicacionPojo() {
@@ -59,10 +77,10 @@ public class PublicacionPojo {
 	public void setNombreUsuario(String nombreUsuario) {
 		this.nombreUsuario = nombreUsuario;
 	}
-	public List<Comentario> getComentarios() {
+	public List<ComentarioPojo> getComentarios() {
 		return comentarios;
 	}
-	public void setComentarios(List<Comentario> comentarios) {
+	public void setComentarios(List<ComentarioPojo> comentarios) {
 		this.comentarios = comentarios;
 	}
 	public String getFoto() {

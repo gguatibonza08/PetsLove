@@ -22,6 +22,12 @@ public class ComentarioPojo implements Serializable {
     @SerializedName("publicacion")
     @Expose
 	private BigInteger publicacion;
+    @SerializedName("fotoUsuario")
+    @Expose
+    private String fotoUsuario;
+    @SerializedName("nombreUsuario")
+    @Expose
+    private String nombreUsuario;
 	
 	public ComentarioPojo() {
 		
@@ -67,4 +73,19 @@ public class ComentarioPojo implements Serializable {
 		this.publicacion = publicacion;
 	}
 
+    public String getFotoUsuario() {
+        return fotoUsuario;
+    }
+
+    public void setFotoUsuario(String fotoUsuario) {
+        this.fotoUsuario = fotoUsuario;
+    }
+
+    public String getNombreUsuario() {
+        return nombreUsuario;
+    }
+
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
+    }
 }

@@ -16,13 +16,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import co.com.petslove.petslovers.fragments.Alimento;
+import co.com.petslove.petslovers.fragments.Estilista;
+import co.com.petslove.petslovers.fragments.Paseador;
 import co.com.petslove.petslovers.fragments.RedSocial;
+import co.com.petslove.petslovers.fragments.Veterinaria;
 import co.com.petslove.petslovers.fragments.home;
 import co.com.petslove.petslovers.fragments.profile;
 import co.com.petslove.petslovers.fragments.search;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, home.OnFragmentInteractionListener, profile.OnFragmentInteractionListener, search.OnFragmentInteractionListener, RedSocial.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, home.OnFragmentInteractionListener, profile.OnFragmentInteractionListener, search.OnFragmentInteractionListener, RedSocial.OnFragmentInteractionListener, Paseador.OnFragmentInteractionListener, Veterinaria.OnFragmentInteractionListener, Alimento.OnFragmentInteractionListener, Estilista.OnFragmentInteractionListener {
 
     private RedSocial redSocial;
     private CardView filtro;
@@ -31,6 +35,10 @@ public class MainActivity extends AppCompatActivity
     private home home;
     private search search;
     private profile profile;
+    private Alimento alimento;
+    private Estilista estilista;
+    private Paseador paseador;
+    private Veterinaria veterinaria;
 
 
     @Override
@@ -96,6 +104,10 @@ public class MainActivity extends AppCompatActivity
         caballo = findViewById(R.id.btnCaballo);
         oveja = findViewById(R.id.btnOveja);
         menuInferior = findViewById(R.id.menuInferior);
+        alimento = new Alimento();
+        veterinaria = new Veterinaria();
+        estilista = new Estilista();
+        paseador = new Paseador();
     }
 
     @Override
@@ -112,19 +124,26 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
-        if (id == R.id.nav_camera) {
-
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
+        if (id == R.id.veterinarias) {
+            filtro.setVisibility(View.VISIBLE);
+            transaction.replace(R.id.mainFrame, veterinaria).commit();
+        } else if (id == R.id.paseadores) {
+            filtro.setVisibility(View.VISIBLE);
+            transaction.replace(R.id.mainFrame, paseador).commit();
+        } else if (id == R.id.alimentos) {
+            filtro.setVisibility(View.VISIBLE);
+            transaction.replace(R.id.mainFrame, alimento).commit();
+        } else if (id == R.id.estilistas) {
+            filtro.setVisibility(View.VISIBLE);
+            transaction.replace(R.id.mainFrame, estilista).commit();
         } else if (id == R.id.nav_share) {
-
+            filtro.setVisibility(View.VISIBLE);
+            transaction.replace(R.id.mainFrame, home).commit();
         } else if (id == R.id.nav_send) {
-
+            filtro.setVisibility(View.VISIBLE);
+            transaction.replace(R.id.mainFrame, home).commit();
         }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

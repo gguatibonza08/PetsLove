@@ -54,10 +54,18 @@
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/contenidoPublicacion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="2dp"
+                android:text="mensaje que se quiera agregar a la publicacion" />
+
             <ImageView
                 android:id="@+id/fotoPublicacion"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="190dp"
                 android:src="@drawable/dog" />
 
             <LinearLayout

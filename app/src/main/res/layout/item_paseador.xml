@@ -21,11 +21,13 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/fotoPaseador"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:src="@drawable/paseador" />
 
             <TextView
+                android:id="@+id/nombrePaseador"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/aclonica"
@@ -35,6 +37,7 @@
                 android:textSize="18sp" />
 
             <TextView
+                android:id="@+id/direccionPaseador"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/magnificent"
@@ -44,6 +47,7 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/telefonoPaseador"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/magnificent"
@@ -53,6 +57,7 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/descripcionPaseador"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:fontFamily="@font/magnificent"

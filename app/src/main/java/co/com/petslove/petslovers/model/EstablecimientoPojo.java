@@ -5,8 +5,9 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.math.BigInteger;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * @author: KevinOlarte
@@ -41,10 +42,10 @@ public class EstablecimientoPojo {
 	private BigInteger usuario;
     @SerializedName("fotografias")
     @Expose
-	private Set<FotografiaPojo> fotografias;
+	private List<FotografiaPojo> fotografias;
 	
 	public EstablecimientoPojo() {
-		this.fotografias = new HashSet<>();
+		this.fotografias = new ArrayList<>();
 	}
 	public BigInteger getIdEstablecimiento() {
 		return idEstablecimiento;
@@ -100,10 +101,10 @@ public class EstablecimientoPojo {
 	public void setUsuario(BigInteger usuario) {
 		this.usuario = usuario;
 	}
-	public Set<FotografiaPojo> getFotografias() {
+	public List<FotografiaPojo> getFotografias() {
 		return fotografias;
 	}
-	public void setFotografias(Set<FotografiaPojo> fotografias) {
+	public void setFotografias(List<FotografiaPojo> fotografias) {
 		this.fotografias = fotografias;
 	}
 	

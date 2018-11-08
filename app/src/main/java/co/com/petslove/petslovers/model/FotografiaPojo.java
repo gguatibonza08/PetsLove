@@ -1,13 +1,15 @@
 package co.com.petslove.petslovers.model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class FotografiaPojo {
 	private Long idFotografia;
 	private String url;
-	private Set<EstablecimientoPojo> establecimientos = new HashSet<>();
-	private Set<AnimalPojo> animales = new HashSet<>();
+	private List<EstablecimientoPojo> establecimientos = new ArrayList<>();
+	private List<AnimalPojo> animales = new ArrayList<>();
 	
 	public FotografiaPojo() {
 		super();
@@ -24,16 +26,16 @@ public class FotografiaPojo {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	public Set<EstablecimientoPojo> getEstablecimientos() {
+	public List<EstablecimientoPojo> getEstablecimientos() {
 		return establecimientos;
 	}
-	public void setEstablecimientos(Set<EstablecimientoPojo> establecimientos) {
+	public void setEstablecimientos(List<EstablecimientoPojo> establecimientos) {
 		this.establecimientos = establecimientos;
 	}
-	public Set<AnimalPojo> getAnimales() {
+	public List<AnimalPojo> getAnimales() {
 		return animales;
 	}
-	public void setAnimales(Set<AnimalPojo> animales) {
+	public void setAnimales(List<AnimalPojo> animales) {
 		this.animales = animales;
 	}
 	

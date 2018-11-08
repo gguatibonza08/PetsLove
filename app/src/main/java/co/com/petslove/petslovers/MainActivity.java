@@ -127,22 +127,22 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
         if (id == R.id.veterinarias) {
-            filtro.setVisibility(View.VISIBLE);
+            filtro.setVisibility(View.GONE);
             transaction.replace(R.id.mainFrame, veterinaria).commit();
         } else if (id == R.id.paseadores) {
-            filtro.setVisibility(View.VISIBLE);
+            filtro.setVisibility(View.GONE);
             transaction.replace(R.id.mainFrame, paseador).commit();
         } else if (id == R.id.alimentos) {
-            filtro.setVisibility(View.VISIBLE);
+            filtro.setVisibility(View.GONE);
             transaction.replace(R.id.mainFrame, alimento).commit();
         } else if (id == R.id.estilistas) {
-            filtro.setVisibility(View.VISIBLE);
+            filtro.setVisibility(View.GONE);
             transaction.replace(R.id.mainFrame, estilista).commit();
         } else if (id == R.id.nav_share) {
-            filtro.setVisibility(View.VISIBLE);
+            filtro.setVisibility(View.GONE);
             transaction.replace(R.id.mainFrame, home).commit();
         } else if (id == R.id.nav_send) {
-            filtro.setVisibility(View.VISIBLE);
+            filtro.setVisibility(View.GONE);
             transaction.replace(R.id.mainFrame, home).commit();
         }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

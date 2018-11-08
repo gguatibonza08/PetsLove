@@ -1,16 +1,18 @@
 package co.com.petslove.petslovers.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 import co.com.petslove.petslovers.R;
@@ -39,9 +41,20 @@ public class comentarioAdapter extends RecyclerView.Adapter<comentarioAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull comentarioAdapter.ViewHolder holder, int position) {
         holder.nombreUsuario.setText(listaComentarios.get(position).getNombreUsuario());
-        Picasso.get().load(listaComentarios.get(position).getFotoUsuario()).into(holder.perfilUsuario);
+        holder.perfilUsuario.setImageBitmap(decode64(listaComentarios.get(position).getFotoUsuario().getBytes()));
+        holder.perfilUsuario.setImageBitmap(decode64(listaComentarios.get(position).getFotoUsuario().getBytes()));
         holder.fechaComentario.setText(listaComentarios.get(position).getFechaComentario());
         holder.contenido.setText(listaComentarios.get(position).getContenido());
+
+    }
+
+
+    private Bitmap decode64(byte[] bytes) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        byte[] decodedBytes = Base64.decode(bytes, Base64.DEFAULT);
+        Bitmap bn = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+        bn.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        return bn;
     }
 
     @Override

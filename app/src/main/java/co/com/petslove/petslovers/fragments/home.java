@@ -4,15 +4,22 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+
 import co.com.petslove.petslovers.R;
+import co.com.petslove.petslovers.adapters.animalAdapter;
+import co.com.petslove.petslovers.model.TransaccionPojo;
 
 public class home extends Fragment {
     private OnFragmentInteractionListener mListener;
-    private String url;
+    private RecyclerView animales;
+    private ArrayList<TransaccionPojo> ListAnimales;
 
     public home() {
         // Required empty public constructor
@@ -38,13 +45,20 @@ public class home extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        animales = view.findViewById(R.id.listaAnimales);
+        refererenciar();
 
-        /*ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        byte[] decodedBytes = Base64.decode(url.getBytes(), Base64.DEFAULT);
-        Bitmap bn = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-        bn.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        prueba.setImageBitmap(bn);*/
         return view;
+    }
+
+    private void refererenciar() {
+        ListAnimales = new ArrayList<>();
+        ListAnimales.add(new TransaccionPojo("GIAn", getString(R.string.prueba), 2, "BUcarmanga", "assaf", 213124, getString(R.string.prueba)));
+        animalAdapter adapter = new animalAdapter(getContext(), ListAnimales);
+        animales.setLayoutManager(new LinearLayoutManager(getContext()));
+        animales.setAdapter(adapter);
+
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -14,6 +14,19 @@ public class TransaccionPojo implements Serializable {
     @SerializedName("usuario")
     @Expose
     private BigInteger usuario;
+
+    //datos nuevo para pojo
+    @SerializedName("nombreUsuario")
+    @Expose
+    private String nombreUsuario;
+    @SerializedName("fotoUsuario")
+    @Expose
+    private String fotoUsuario;
+    @SerializedName("calificacionUsuario")
+    @Expose
+    private int calificacionUsuario;
+
+    //hasta aquí
     @SerializedName("tipo")
     @Expose
     private String tipo;
@@ -52,8 +65,42 @@ public class TransaccionPojo implements Serializable {
     private List<String> fotografias;
 
 
+    public TransaccionPojo(String nombreUsuario, String fotoUsuario, int calificacionUsuario, String ciudad, String direccion, Integer precio, String foto) {
+        this.nombreUsuario = nombreUsuario;
+        this.fotoUsuario = fotoUsuario;
+        this.calificacionUsuario = calificacionUsuario;
+        this.ciudad = ciudad;
+        this.direccion = direccion;
+        this.precio = precio;
+        this.foto = foto;
+    }
+
     public TransaccionPojo() {
 
+    }
+
+    public int getCalificacionUsuario() {
+        return calificacionUsuario;
+    }
+
+    public void setCalificacionUsuario(int calificacionUsuario) {
+        this.calificacionUsuario = calificacionUsuario;
+    }
+
+    public String getNombreUsuario() {
+        return nombreUsuario;
+    }
+
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
+    }
+
+    public String getFotoUsuario() {
+        return fotoUsuario;
+    }
+
+    public void setFotoUsuario(String fotoUsuario) {
+        this.fotoUsuario = fotoUsuario;
     }
 
     public BigInteger getUsuario() {

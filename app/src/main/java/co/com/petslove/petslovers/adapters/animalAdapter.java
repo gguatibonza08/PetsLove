@@ -1,8 +1,11 @@
 package co.com.petslove.petslovers.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +13,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 import co.com.petslove.petslovers.R;
@@ -23,6 +25,11 @@ public class animalAdapter extends RecyclerView.Adapter<animalAdapter.ViewHolder
     private ArrayList<TransaccionPojo> animales;
     private View.OnClickListener listener;
 
+    public animalAdapter(Context context, ArrayList<TransaccionPojo> animales) {
+        this.context = context;
+        this.animales = animales;
+    }
+
     @NonNull
     @Override
     public animalAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -33,7 +40,26 @@ public class animalAdapter extends RecyclerView.Adapter<animalAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull animalAdapter.ViewHolder holder, int position) {
-        Picasso.get().load(animales.get(position).getFotografias().get(0)).into(holder.foto);
+
+        holder.foto.setImageBitmap(decode64(animales.get(position).getFoto().getBytes()));
+        holder.nombreUsuario.setText(animales.get(position).getNombreUsuario());
+        holder.calificacion.setRating(animales.get(position).getCalificacionUsuario());
+        holder.ciudad.setText(animales.get(position).getCiudad());
+
+        if (animales.get(position).getPrecio() == 0) {
+            holder.precio.setText("ADOPCIÓN");
+        } else {
+            holder.precio.setText(animales.get(position).getPrecio().toString());
+        }
+        holder.fotoUsuario.setImageBitmap(decode64(animales.get(position).getFotoUsuario().getBytes()));
+    }
+
+    private Bitmap decode64(byte[] bytes) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        byte[] decodedBytes = Base64.decode(bytes, Base64.DEFAULT);
+        Bitmap bn = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+        bn.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        return bn;
     }
 
     @Override
@@ -51,6 +77,7 @@ public class animalAdapter extends RecyclerView.Adapter<animalAdapter.ViewHolder
             listener.onClick(v);
         }
     }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 

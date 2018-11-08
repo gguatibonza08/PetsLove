@@ -1,9 +1,12 @@
 package co.com.petslove.petslovers.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +17,7 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 import co.com.petslove.petslovers.R;
@@ -42,10 +46,11 @@ public class publicacionAdapter extends RecyclerView.Adapter<publicacionAdapter.
     @Override
     public void onBindViewHolder(@NonNull publicacionAdapter.ViewHolder holder, int position) {
         holder.nombreUsuario.setText(listaPublicaciones.get(position).getNombreUsuario());
-        Picasso.get().load(listaPublicaciones.get(position).getFotoUsuario()).into(holder.perfilUsuario);
+        holder.perfilUsuario.setImageBitmap(decode64(listaPublicaciones.get(position).getFotoUsuario().getBytes()));
         holder.fechaPublicacion.setText(listaPublicaciones.get(position).getHoraPublicacion().toString());
         holder.contenido.setText(listaPublicaciones.get(position).getDescripcion());
-        Picasso.get().load(listaPublicaciones.get(position).getFoto()).into(holder.fotoPublicacion);
+        holder.fotoPublicacion.setImageBitmap(decode64(listaPublicaciones.get(position).getFoto().getBytes()));
+
         holder.cantidadLikes.setText(listaPublicaciones.get(position).getLikes() + " me Encorazonan.");
         holder.cantidadComentarios.setText(listaPublicaciones.get(position).getComentarios().size() + " comentarios");
         comentarioAdapter comentarioAdapter = new comentarioAdapter(context, listaPublicaciones.get(position).getComentarios());
@@ -64,6 +69,15 @@ public class publicacionAdapter extends RecyclerView.Adapter<publicacionAdapter.
             }
         });
     }
+
+    private Bitmap decode64(byte[] bytes) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        byte[] decodedBytes = Base64.decode(bytes, Base64.DEFAULT);
+        Bitmap bn = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+        bn.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        return bn;
+    }
+
 
     @Override
     public int getItemCount() {

@@ -1,16 +1,18 @@
 package co.com.petslove.petslovers.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 import co.com.petslove.petslovers.R;
@@ -40,9 +42,18 @@ public class veterinariaAdapter extends RecyclerView.Adapter<veterinariaAdapter.
         holder.nombreVeterinaria.setText(veterinarias.get(position).getNombre());
         holder.direccionVeterinaria.setText(veterinarias.get(position).getDireccion());
         holder.telefonoVeterinaria.setText(veterinarias.get(position).getTelefono());
-        Picasso.get().load(veterinarias.get(position).getFotografias().get(0).getUrl()).into(holder.fotoVeterinaria);
+        holder.fotoVeterinaria.setImageBitmap(decode64(veterinarias.get(position).getFotografias().get(0).getUrl().getBytes()));
 
     }
+
+    private Bitmap decode64(byte[] bytes) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        byte[] decodedBytes = Base64.decode(bytes, Base64.DEFAULT);
+        Bitmap bn = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+        bn.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        return bn;
+    }
+
 
     @Override
     public int getItemCount() {

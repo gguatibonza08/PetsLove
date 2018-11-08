@@ -7,16 +7,28 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import co.com.petslove.petslovers.R;
 import co.com.petslove.petslovers.adapters.publicacionAdapter;
+import co.com.petslove.petslovers.model.ComentarioPojo;
 import co.com.petslove.petslovers.model.PublicacionPojo;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 
 public class RedSocial extends Fragment {
@@ -24,11 +36,13 @@ public class RedSocial extends Fragment {
     private RecyclerView redSocial;
     private OnFragmentInteractionListener mListener;
     private ArrayList<PublicacionPojo> publicaciones;
+    private ArrayList<ComentarioPojo> comentarios;
     private FloatingActionButton addPublicacion;
 
     public RedSocial() {
 
     }
+
 
     public static RedSocial newInstance() {
         RedSocial fragment = new RedSocial();
@@ -57,16 +71,12 @@ public class RedSocial extends Fragment {
                 Toast.makeText(getContext(), "me falta agregar la otra activity para esto", Toast.LENGTH_SHORT).show();
             }
         });
-        //en este metodo agregar el llamado a web services
-        referenciar();
+      //  consultarPublicaciones();
 
         return view;
     }
 
     private void referenciar() {
-
-        //configurar conexion a web servies
-
         publicacionAdapter publicacionAdapter = new publicacionAdapter(getContext(), publicaciones);
         redSocial.setLayoutManager(new LinearLayoutManager(getContext()));
         redSocial.setAdapter(publicacionAdapter);
@@ -100,5 +110,48 @@ public class RedSocial extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    /**
+     * @Author Kevin Joel Olarte
+     *  7/11/2018
+     */
+    public void consultarPublicaciones() {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url("http://" + getString(R.string.ip) + ":8080/buscarPorTipos")
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String rta = response.body().string();
+                    Log.i("exito", "rta " + rta);
+                    Gson gson = new Gson();
+                    Type listType = new
+                            TypeToken<ArrayList<PublicacionPojo>>() {
+                            }.getType();
+                    final ArrayList<PublicacionPojo> respuesta = new Gson().fromJson(rta, listType);
+                    publicaciones = new ArrayList<>();
+                    for (PublicacionPojo iter : respuesta) {
+                        publicaciones.add(iter);
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                referenciar();
+                            }
+                        });
+
+                    }
+                }
+
+            }
+        });
     }
 }

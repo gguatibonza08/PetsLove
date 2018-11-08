@@ -44,6 +44,8 @@
     <string name="name_saler">Gian Guatibonza</string>
     <string name="city_sale">BUCARAMANGA</string>
     <string name="price_sale">$ 150.000</string>
+    <string name="ip">192.168.0.19</string>
+    <string name="codeFoto">123</string>
 
 
 </resources>

@@ -57,7 +57,7 @@ public class RedSocial extends Fragment {
                 Toast.makeText(getContext(), "me falta agregar la otra activity para esto", Toast.LENGTH_SHORT).show();
             }
         });
-        //en este metodo agregar el llamado a web services
+
         referenciar();
 
         return view;
@@ -67,6 +67,7 @@ public class RedSocial extends Fragment {
 
         //configurar conexion a web servies
 
+        publicaciones = new ArrayList<>();
         publicacionAdapter publicacionAdapter = new publicacionAdapter(getContext(), publicaciones);
         redSocial.setLayoutManager(new LinearLayoutManager(getContext()));
         redSocial.setAdapter(publicacionAdapter);

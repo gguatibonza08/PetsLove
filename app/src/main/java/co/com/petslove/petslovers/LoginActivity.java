@@ -136,7 +136,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void loginManual() {
         String correoUs = correoUsuario.getText().toString();
         String contrasenaUs = contrasenaUsuario.getText().toString();
-        code = getString(R.string.codeFoto);
+       // code = getString(R.string.codeFoto);
         //mientras conecto el web services
         crearPreferencias(contrasenaUs, correoUs, code);
         goMain();

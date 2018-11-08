@@ -55,6 +55,7 @@ public class Veterinaria extends Fragment {
     private void consultar() {
 
         //conexión webservices
+        ListVeterinarias = new ArrayList<>();
         veterinariaAdapter adapter = new veterinariaAdapter(getContext(), ListVeterinarias);
         veterinarias.setLayoutManager(new LinearLayoutManager(getContext()));
         veterinarias.setAdapter(adapter);

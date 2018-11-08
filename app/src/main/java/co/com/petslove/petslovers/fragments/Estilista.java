@@ -53,6 +53,7 @@ public class Estilista extends Fragment {
     }
 
     private void consultarEstilistas() {
+        ListEstilistas = new ArrayList<>();
         estilistaAdapter adapter = new estilistaAdapter(getContext(), ListEstilistas);
         estilistas.setLayoutManager(new LinearLayoutManager(getContext()));
         estilistas.setAdapter(adapter);

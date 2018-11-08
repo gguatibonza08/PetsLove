@@ -51,7 +51,7 @@ public class Alimento extends Fragment {
     }
 
     private void consultarAlimento() {
-
+        ListAlimentos = new ArrayList<>();
         alimentoAdapter adapter = new alimentoAdapter(getContext(), ListAlimentos);
         alimentos.setLayoutManager(new LinearLayoutManager(getContext()));
         alimentos.setAdapter(adapter);

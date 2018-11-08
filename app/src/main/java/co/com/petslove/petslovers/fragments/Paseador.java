@@ -53,7 +53,7 @@ public class Paseador extends Fragment {
 
     private void referenciar() {
         //conexion a web services
-
+        listPaseadores = new ArrayList<>();
         paseadorAdapter adapter = new paseadorAdapter(getContext(), listPaseadores);
         paseadores.setLayoutManager(new GridLayoutManager(getContext(), 2));
         paseadores.setAdapter(adapter);

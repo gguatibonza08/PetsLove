@@ -16,7 +16,6 @@ import java.util.ArrayList;
 
 import co.com.petslove.petslovers.R;
 import co.com.petslove.petslovers.adapters.publicacionAdapter;
-import co.com.petslove.petslovers.model.ComentarioPojo;
 import co.com.petslove.petslovers.model.PublicacionPojo;
 
 
@@ -25,13 +24,11 @@ public class RedSocial extends Fragment {
     private RecyclerView redSocial;
     private OnFragmentInteractionListener mListener;
     private ArrayList<PublicacionPojo> publicaciones;
-    private ArrayList<ComentarioPojo> comentarios;
     private FloatingActionButton addPublicacion;
 
     public RedSocial() {
 
     }
-
 
     public static RedSocial newInstance() {
         RedSocial fragment = new RedSocial();

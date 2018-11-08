@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 import co.com.petslove.petslovers.R;
@@ -37,7 +39,7 @@ public class paseadorAdapter extends RecyclerView.Adapter<paseadorAdapter.ViewHo
         holder.nombrePaseador.setText(paseadores.get(position).getNombre());
         holder.direccionPaseador.setText(paseadores.get(position).getDireccion());
         holder.telefonoPaseador.setText(paseadores.get(position).getTelefono());
-        //Picasso.get().load(paseadores.get(position).get)
+        Picasso.get().load(paseadores.get(position).getFotografias().get(0).getUrl()).into(holder.fotoPaseador);
 
     }
 

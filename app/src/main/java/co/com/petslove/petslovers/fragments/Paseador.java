@@ -4,17 +4,23 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+
 import co.com.petslove.petslovers.R;
+import co.com.petslove.petslovers.adapters.paseadorAdapter;
+import co.com.petslove.petslovers.model.EstablecimientoPojo;
 
 
 public class Paseador extends Fragment {
 
     private RecyclerView paseadores;
+    private ArrayList<EstablecimientoPojo> listPaseadores = new ArrayList<>();
     private OnFragmentInteractionListener mListener;
 
     public Paseador() {
@@ -41,7 +47,16 @@ public class Paseador extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_paseador, container, false);
         paseadores = view.findViewById(R.id.listaPaseadores);
+        referenciar();
         return view;
+    }
+
+    private void referenciar() {
+        //conexion a web services
+
+        paseadorAdapter adapter = new paseadorAdapter(getContext(), listPaseadores);
+        paseadores.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        paseadores.setAdapter(adapter);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

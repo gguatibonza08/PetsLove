@@ -6,159 +6,158 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.List;
+
 /**
  * Created by kolarte on 3/03/18.
  */
 public class TransaccionPojo implements Serializable {
-	@SerializedName("usuario")
-	@Expose
+    @SerializedName("usuario")
+    @Expose
     private BigInteger usuario;
-	@SerializedName("tipo")
-	@Expose
+    @SerializedName("tipo")
+    @Expose
     private String tipo;
-	@SerializedName("raza")
-	@Expose
+    @SerializedName("raza")
+    @Expose
     private String raza;
-	@SerializedName("descripcion")
-	@Expose
+    @SerializedName("descripcion")
+    @Expose
     private String descripcion;
-	@SerializedName("departamento")
-	@Expose
+    @SerializedName("departamento")
+    @Expose
     private String departamento;
-	@SerializedName("ciudad")
-	@Expose
+    @SerializedName("ciudad")
+    @Expose
     private String ciudad;
-	@SerializedName("direccion")
-	@Expose
+    @SerializedName("direccion")
+    @Expose
     private String direccion;
-	@SerializedName("ubicacion")
-	@Expose
+    @SerializedName("ubicacion")
+    @Expose
     private String ubicacion;
-	@SerializedName("status")
-	@Expose
+    @SerializedName("status")
+    @Expose
     private String status;
-	@SerializedName("activo")
-	@Expose
+    @SerializedName("activo")
+    @Expose
     private boolean activo;
-	@SerializedName("precio")
-	@Expose
+    @SerializedName("precio")
+    @Expose
     private Integer precio;
-	@SerializedName("foto")
-	@Expose
+    @SerializedName("foto")
+    @Expose
     private String foto;
-	@SerializedName("fotografias")
-	@Expose
+    @SerializedName("fotografias")
+    @Expose
     private List<String> fotografias;
 
- 
- public TransaccionPojo () {
-	 
- }
 
-public BigInteger getUsuario() {
-	return usuario;
-}
+    public TransaccionPojo() {
 
-public void setUsuario(BigInteger usuario) {
-	this.usuario = usuario;
-}
+    }
 
-public String getTipo() {
-	return tipo;
-}
+    public BigInteger getUsuario() {
+        return usuario;
+    }
 
-public void setTipo(String tipo) {
-	this.tipo = tipo;
-}
+    public void setUsuario(BigInteger usuario) {
+        this.usuario = usuario;
+    }
 
-public String getRaza() {
-	return raza;
-}
+    public String getTipo() {
+        return tipo;
+    }
 
-public void setRaza(String raza) {
-	this.raza = raza;
-}
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
 
-public String getDescripcion() {
-	return descripcion;
-}
+    public String getRaza() {
+        return raza;
+    }
 
-public void setDescripcion(String descripcion) {
-	this.descripcion = descripcion;
-}
+    public void setRaza(String raza) {
+        this.raza = raza;
+    }
 
-public String getDepartamento() {
-	return departamento;
-}
+    public String getDescripcion() {
+        return descripcion;
+    }
 
-public void setDepartamento(String departamento) {
-	this.departamento = departamento;
-}
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
 
-public String getCiudad() {
-	return ciudad;
-}
+    public String getDepartamento() {
+        return departamento;
+    }
 
-public void setCiudad(String ciudad) {
-	this.ciudad = ciudad;
-}
+    public void setDepartamento(String departamento) {
+        this.departamento = departamento;
+    }
 
-public String getDireccion() {
-	return direccion;
-}
+    public String getCiudad() {
+        return ciudad;
+    }
 
-public void setDireccion(String direccion) {
-	this.direccion = direccion;
-}
+    public void setCiudad(String ciudad) {
+        this.ciudad = ciudad;
+    }
 
-public String getUbicacion() {
-	return ubicacion;
-}
+    public String getDireccion() {
+        return direccion;
+    }
 
-public void setUbicacion(String ubicacion) {
-	this.ubicacion = ubicacion;
-}
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
 
-public String getStatus() {
-	return status;
-}
+    public String getUbicacion() {
+        return ubicacion;
+    }
 
-public void setStatus(String status) {
-	this.status = status;
-}
+    public void setUbicacion(String ubicacion) {
+        this.ubicacion = ubicacion;
+    }
 
-public boolean isActivo() {
-	return activo;
-}
+    public String getStatus() {
+        return status;
+    }
 
-public void setActivo(boolean activo) {
-	this.activo = activo;
-}
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
-public Integer getPrecio() {
-	return precio;
-}
+    public boolean isActivo() {
+        return activo;
+    }
 
-public void setPrecio(Integer precio) {
-	this.precio = precio;
-}
+    public void setActivo(boolean activo) {
+        this.activo = activo;
+    }
 
-public String getFoto() {
-	return foto;
-}
+    public Integer getPrecio() {
+        return precio;
+    }
 
-public void setFoto(String foto) {
-	this.foto = foto;
-}
+    public void setPrecio(Integer precio) {
+        this.precio = precio;
+    }
 
-public List<String> getFotografias() {
-	return fotografias;
-}
+    public String getFoto() {
+        return foto;
+    }
 
-public void setFotografias(List<String> fotografias) {
-	this.fotografias = fotografias;
-}
- 
- 
- 
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
+
+    public List<String> getFotografias() {
+        return fotografias;
+    }
+
+    public void setFotografias(List<String> fotografias) {
+        this.fotografias = fotografias;
+    }
+
 }

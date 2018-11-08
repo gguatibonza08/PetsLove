@@ -15,31 +15,31 @@ import java.util.List;
 public class EstablecimientoPojo {
     @SerializedName("idEstablecimiento")
     @Expose
-	private BigInteger idEstablecimiento;
+    private BigInteger idEstablecimiento;
     @SerializedName("calificacion")
     @Expose
-	private int calificacion;
+    private int calificacion;
     @SerializedName("correo")
     @Expose
-	private String correo;
+    private String correo;
     @SerializedName("direccion")
     @Expose
-	private String direccion;
+    private String direccion;
     @SerializedName("nombre")
     @Expose
-	private String nombre;
+    private String nombre;
     @SerializedName("password")
     @Expose
-	private String password;
+    private String password;
     @SerializedName("telefono")
     @Expose
-	private int telefono;
+    private int telefono;
     @SerializedName("tipo")
     @Expose
-	private String tipo;
+    private String tipo;
     @SerializedName("usuario")
     @Expose
-	private BigInteger usuario;
+    private BigInteger usuario;
     @SerializedName("fotografias")
     @Expose
 	private List<FotografiaPojo> fotografias;

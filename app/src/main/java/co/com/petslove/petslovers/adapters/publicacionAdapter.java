@@ -2,6 +2,7 @@ package co.com.petslove.petslovers.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +14,7 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import co.com.petslove.petslovers.R;
 import co.com.petslove.petslovers.model.PublicacionPojo;
@@ -21,11 +22,11 @@ import co.com.petslove.petslovers.model.PublicacionPojo;
 public class publicacionAdapter extends RecyclerView.Adapter<publicacionAdapter.ViewHolder> implements View.OnClickListener {
 
     private Context context;
-    private ArrayList<PublicacionPojo> listaPublicaciones;
+    private List<PublicacionPojo> listaPublicaciones;
     private View.OnClickListener listener;
 
 
-    public publicacionAdapter(Context context, ArrayList<PublicacionPojo> listaPublicaciones) {
+    public publicacionAdapter(Context context, List<PublicacionPojo> listaPublicaciones) {
         this.context = context;
         this.listaPublicaciones = listaPublicaciones;
     }
@@ -47,6 +48,9 @@ public class publicacionAdapter extends RecyclerView.Adapter<publicacionAdapter.
         Picasso.get().load(listaPublicaciones.get(position).getFoto()).into(holder.fotoPublicacion);
         holder.cantidadLikes.setText(listaPublicaciones.get(position).getLikes() + " me Encorazonan.");
         holder.cantidadComentarios.setText(listaPublicaciones.get(position).getComentarios().size() + " comentarios");
+        comentarioAdapter comentarioAdapter = new comentarioAdapter(context, listaPublicaciones.get(position).getComentarios());
+        holder.comentarios.setLayoutManager(new LinearLayoutManager(context));
+        holder.comentarios.setAdapter(comentarioAdapter);
         holder.like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,6 +90,7 @@ public class publicacionAdapter extends RecyclerView.Adapter<publicacionAdapter.
         ImageView fotoPublicacion;
         TextView cantidadLikes;
         TextView cantidadComentarios;
+        RecyclerView comentarios;
         Button like;
         Button comentar;
 
@@ -101,6 +106,8 @@ public class publicacionAdapter extends RecyclerView.Adapter<publicacionAdapter.
             like = itemView.findViewById(R.id.likePublicacion);
             comentar = itemView.findViewById(R.id.comentarPublicacion);
             contenido = itemView.findViewById(R.id.contenidoPublicacion);
+            comentarios = itemView.findViewById(R.id.itemPublicacion_comentarios);
+
         }
     }
 }

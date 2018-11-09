@@ -60,9 +60,7 @@ public class RedSocial extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_red_social, container, false);
         redSocial = view.findViewById(R.id.listaPublicacions);
-
         addPublicacion = view.findViewById(R.id.floatingActionButton);
-
         addPublicacion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,9 +108,10 @@ public class RedSocial extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
     /**
      * @Author Kevin Joel Olarte
-     *  7/11/2018
+     * 7/11/2018
      */
     public void consultarPublicaciones() {
         OkHttpClient client = new OkHttpClient();
@@ -139,15 +138,17 @@ public class RedSocial extends Fragment {
                     publicaciones = new ArrayList<>();
                     for (PublicacionPojo iter : respuesta) {
                         publicaciones.add(iter);
-                        Log.i("servicio",iter.getDescripcion());
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                referenciar();
-                            }
-                        });
-
+                        Log.i("servicio", iter.getDescripcion());
                     }
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            //referenciar();  ->prueba así, si funciona entonces descomenta esta parte y borra lo de abajo para hacer prueba por si algo, la igual prueba enviando al adapter publicaciones y respuesta para ver si se puede ahorrar lo dl for anterior
+                            publicacionAdapter publicacionAdapter = new publicacionAdapter(getContext(), respuesta);
+                            redSocial.setLayoutManager(new LinearLayoutManager(getContext()));
+                            redSocial.setAdapter(publicacionAdapter);
+                        }
+                    });
                 }
 
             }

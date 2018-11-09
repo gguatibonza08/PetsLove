@@ -105,8 +105,8 @@ public class publicacionAdapter extends RecyclerView.Adapter<publicacionAdapter.
         TextView cantidadLikes;
         TextView cantidadComentarios;
         RecyclerView comentarios;
-        Button like;
-        Button comentar;
+        ImageView like;
+        ImageView comentar;
 
 
         public ViewHolder(View itemView) {

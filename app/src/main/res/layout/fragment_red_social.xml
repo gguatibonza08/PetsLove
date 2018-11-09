@@ -14,16 +14,17 @@
         android:layout_margin="10dp"
         tools:listitem="@layout/item_publicacion" />
 
+
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/addPublicacion"
+        android:id="@+id/floatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginRight="13dp"
-        android:layout_marginBottom="21dp"
-        android:backgroundTint="@color/colorCafesito"
-        android:src="@drawable/add"
-        app:fabSize="normal" />
+        android:layout_marginRight="18dp"
+        android:layout_marginBottom="35dp"
+        android:clickable="true"
+        app:srcCompat="@drawable/add" />
+
 
 </RelativeLayout>

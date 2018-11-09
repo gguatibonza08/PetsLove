@@ -114,7 +114,10 @@
         android:layout_height="match_parent"
         android:layout_above="@id/menuInferior"
         android:layout_below="@id/filtroBusqueda"
-        android:layout_margin="1dp"></FrameLayout>
+        android:layout_margin="1dp">
+
+
+    </FrameLayout>
 
 
     <android.support.design.widget.BottomNavigationView

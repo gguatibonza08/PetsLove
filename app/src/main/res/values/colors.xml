@@ -4,6 +4,7 @@
     <color name="colorPrimary">#00aa44</color>
     <color name="colorAccent">#ffffff</color>
     <color name="colorCafesito">#d3bc5f</color>
+    <color name="colorTRans">#CCd3bc5f</color>
     <color name="griscesito">#dddddd</color>
     <color name="dark">#000</color>
 </resources>

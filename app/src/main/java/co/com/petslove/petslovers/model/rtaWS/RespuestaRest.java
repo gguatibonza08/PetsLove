@@ -1,6 +1,7 @@
 package co.com.petslove.petslovers.model.rtaWS;
 
 import java.math.BigInteger;
+import java.util.List;
 
 import co.com.petslove.petslovers.model.Usuario;
 
@@ -10,6 +11,7 @@ public class RespuestaRest {
     private BigInteger idRest;
     private boolean confirmacion;
     private Usuario objectRest;
+    private List<Object> list;
 
 
     public RespuestaRest(int codigoRespuesta, String mensaje) {
@@ -75,5 +77,21 @@ public class RespuestaRest {
 
     public void setUser(Usuario user) {
         this.objectRest = user;
+    }
+
+    public Usuario getObjectRest() {
+        return objectRest;
+    }
+
+    public void setObjectRest(Usuario objectRest) {
+        this.objectRest = objectRest;
+    }
+
+    public List<Object> getList() {
+        return list;
+    }
+
+    public void setList(List<Object> list) {
+        this.list = list;
     }
 }

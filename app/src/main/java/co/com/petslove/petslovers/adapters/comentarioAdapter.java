@@ -29,6 +29,8 @@ public class comentarioAdapter extends RecyclerView.Adapter<comentarioAdapter.Vi
     public comentarioAdapter(Context context, List<ComentarioPojo> listaComentarios) {
         this.context = context;
         this.listaComentarios = listaComentarios;
+        Log.e("size", listaComentarios.size() + "");
+        Log.e("contenido", listaComentarios.get(0).getContenido() + "");
     }
 
     @NonNull
@@ -45,6 +47,7 @@ public class comentarioAdapter extends RecyclerView.Adapter<comentarioAdapter.Vi
         holder.perfilUsuario.setImageBitmap(decode64(listaComentarios.get(position).getFotoUsuario().getBytes()));
         holder.perfilUsuario.setImageBitmap(decode64(listaComentarios.get(position).getFotoUsuario().getBytes()));
         holder.fechaComentario.setText(listaComentarios.get(position).getFechaComentario());
+
         holder.contenido.setText(listaComentarios.get(position).getContenido());
 
     }
@@ -93,7 +96,7 @@ public class comentarioAdapter extends RecyclerView.Adapter<comentarioAdapter.Vi
             perfilUsuario = itemView.findViewById(R.id.fotoUsuarioComentario);
             nombreUsuario = itemView.findViewById(R.id.nombreUsuarioComentario);
             fechaComentario = itemView.findViewById(R.id.fechaComentario);
-            contenido = itemView.findViewById(R.id.contenidoPublicacion);
+            contenido = itemView.findViewById(R.id.textoComentario);
         }
     }
 }

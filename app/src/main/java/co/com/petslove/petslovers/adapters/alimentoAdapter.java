@@ -40,11 +40,15 @@ public class alimentoAdapter extends RecyclerView.Adapter<alimentoAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.nombreAlimento.setText(alimentos.get(position).getNombre());
-        holder.direccionAlimento.setText(alimentos.get(position).getDireccion());
-        holder.telefonoAlimento.setText(alimentos.get(position).getTelefono());
-        holder.fotoAlimento.setImageBitmap(decode64(alimentos.get(position).getFotografias().get(0).getUrl().getBytes()));
+        try {
+            holder.nombreAlimento.setText(alimentos.get(position).getNombre());
+            holder.direccionAlimento.setText(alimentos.get(position).getDireccion());
+            holder.telefonoAlimento.setText(alimentos.get(position).getTelefono());
+            holder.fotoAlimento.setImageBitmap(decode64(alimentos.get(position).getFotografias().get(0).getUrl().getBytes()));
 
+        } catch (Exception e) {
+            Log.e("Error Alimento", "Se peto en la parte Alimento");
+        }
 
     }
 

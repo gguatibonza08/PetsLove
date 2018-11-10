@@ -10,8 +10,11 @@
         android:id="@+id/listaPublicacions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="10dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
+        android:foregroundGravity="center"
         tools:listitem="@layout/item_publicacion" />
 
 
@@ -22,7 +25,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_marginRight="18dp"
-        android:layout_marginBottom="35dp"
+        android:layout_marginBottom="15dp"
         android:clickable="true"
         app:srcCompat="@drawable/add" />
 

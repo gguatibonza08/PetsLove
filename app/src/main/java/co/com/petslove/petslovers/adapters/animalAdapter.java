@@ -42,18 +42,23 @@ public class animalAdapter extends RecyclerView.Adapter<animalAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull animalAdapter.ViewHolder holder, int position) {
 
-        holder.foto.setImageBitmap(decode64(animales.get(position).getFoto().getBytes()));
-        holder.nombreUsuario.setText(animales.get(position).getNombreUsuario());
-        holder.calificacion.setRating(animales.get(position).getCalificacionUsuario());
-        holder.ciudad.setText(animales.get(position).getCiudad());
+        try{
+            holder.foto.setImageBitmap(decode64(animales.get(position).getFoto().getBytes()));
+            holder.nombreUsuario.setText(animales.get(position).getNombreUsuario());
+            holder.calificacion.setRating(animales.get(position).getCalificacionUsuario());
+            holder.ciudad.setText(animales.get(position).getCiudad());
 
-        if (animales.get(position).getPrecio() == 0) {
-            holder.precio.setText("ADOPCIÓN");
-        } else {
-            holder.precio.setText(animales.get(position).getPrecio().toString());
+            if (animales.get(position).getPrecio() == 0) {
+                holder.precio.setText("ADOPCIÓN");
+            } else {
+                holder.precio.setText(animales.get(position).getPrecio().toString());
+            }
+            holder.fotoUsuario.setImageBitmap(decode64(animales.get(position).getFotoUsuario().getBytes()));
+
+        }catch (Exception e){
+            Log.e("Error animal","Senpeto en animal");
         }
-        holder.fotoUsuario.setImageBitmap(decode64(animales.get(position).getFotoUsuario().getBytes()));
-    }
+      }
 
     private Bitmap decode64(byte[] bytes) {
         try {

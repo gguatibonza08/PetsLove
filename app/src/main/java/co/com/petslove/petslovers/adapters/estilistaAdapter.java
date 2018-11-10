@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,19 +42,29 @@ public class estilistaAdapter extends RecyclerView.Adapter<estilistaAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull estilistaAdapter.ViewHolder holder, int position) {
-        holder.nombreEstilista.setText(estilistas.get(position).getNombre());
-        holder.direccionEstilista.setText(estilistas.get(position).getDireccion());
-        holder.telefonoEstilista.setText(estilistas.get(position).getTelefono());
-        Picasso.get().load(estilistas.get(position).getFotografias().get(0).getUrl()).into(holder.fotoEstilista);
+        try{
+            holder.nombreEstilista.setText(estilistas.get(position).getNombre());
+            holder.direccionEstilista.setText(estilistas.get(position).getDireccion());
+            holder.telefonoEstilista.setText(estilistas.get(position).getTelefono());
+            Picasso.get().load(estilistas.get(position).getFotografias().get(0).getUrl()).into(holder.fotoEstilista);
 
+        }catch (Exception e){
+            Log.e("Error","Error en estilista");
+        }
     }
 
     private Bitmap decode64(byte[] bytes) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        byte[] decodedBytes = Base64.decode(bytes, Base64.DEFAULT);
-        Bitmap bn = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-        bn.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        return bn;
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            byte[] decodedBytes = Base64.decode(bytes, Base64.DEFAULT);
+            Bitmap bn = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+            bn.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            return bn;
+        } catch (Exception e) {
+            Log.e("Error", "Campo foto vacio");
+            return null;
+        }
+
     }
 
     @Override

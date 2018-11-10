@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,8 @@ public class comentarioAdapter extends RecyclerView.Adapter<comentarioAdapter.Vi
     public comentarioAdapter(Context context, List<ComentarioPojo> listaComentarios) {
         this.context = context;
         this.listaComentarios = listaComentarios;
+        Log.e("size", listaComentarios.size() + "");
+        Log.e("contenido", listaComentarios.get(0).getContenido() + "");
     }
 
     @NonNull
@@ -44,17 +47,24 @@ public class comentarioAdapter extends RecyclerView.Adapter<comentarioAdapter.Vi
         holder.perfilUsuario.setImageBitmap(decode64(listaComentarios.get(position).getFotoUsuario().getBytes()));
         holder.perfilUsuario.setImageBitmap(decode64(listaComentarios.get(position).getFotoUsuario().getBytes()));
         holder.fechaComentario.setText(listaComentarios.get(position).getFechaComentario());
+
         holder.contenido.setText(listaComentarios.get(position).getContenido());
 
     }
 
 
     private Bitmap decode64(byte[] bytes) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        byte[] decodedBytes = Base64.decode(bytes, Base64.DEFAULT);
-        Bitmap bn = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-        bn.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        return bn;
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            byte[] decodedBytes = Base64.decode(bytes, Base64.DEFAULT);
+            Bitmap bn = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+            bn.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            return bn;
+        } catch (Exception e) {
+            Log.e("Error", "Campo foto vacio");
+            return null;
+        }
+
     }
 
     @Override
@@ -86,7 +96,7 @@ public class comentarioAdapter extends RecyclerView.Adapter<comentarioAdapter.Vi
             perfilUsuario = itemView.findViewById(R.id.fotoUsuarioComentario);
             nombreUsuario = itemView.findViewById(R.id.nombreUsuarioComentario);
             fechaComentario = itemView.findViewById(R.id.fechaComentario);
-            contenido = itemView.findViewById(R.id.contenidoPublicacion);
+            contenido = itemView.findViewById(R.id.textoComentario);
         }
     }
 }

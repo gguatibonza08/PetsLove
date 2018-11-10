@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,25 +42,36 @@ public class animalAdapter extends RecyclerView.Adapter<animalAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull animalAdapter.ViewHolder holder, int position) {
 
-        holder.foto.setImageBitmap(decode64(animales.get(position).getFoto().getBytes()));
-        holder.nombreUsuario.setText(animales.get(position).getNombreUsuario());
-        holder.calificacion.setRating(animales.get(position).getCalificacionUsuario());
-        holder.ciudad.setText(animales.get(position).getCiudad());
+        try{
+            holder.foto.setImageBitmap(decode64(animales.get(position).getFoto().getBytes()));
+            holder.nombreUsuario.setText(animales.get(position).getNombreUsuario());
+            holder.calificacion.setRating(animales.get(position).getCalificacionUsuario());
+            holder.ciudad.setText(animales.get(position).getCiudad());
 
-        if (animales.get(position).getPrecio() == 0) {
-            holder.precio.setText("ADOPCIÓN");
-        } else {
-            holder.precio.setText(animales.get(position).getPrecio().toString());
+            if (animales.get(position).getPrecio() == 0) {
+                holder.precio.setText("ADOPCIÓN");
+            } else {
+                holder.precio.setText(animales.get(position).getPrecio().toString());
+            }
+            holder.fotoUsuario.setImageBitmap(decode64(animales.get(position).getFotoUsuario().getBytes()));
+
+        }catch (Exception e){
+            Log.e("Error animal","Senpeto en animal");
         }
-        holder.fotoUsuario.setImageBitmap(decode64(animales.get(position).getFotoUsuario().getBytes()));
-    }
+      }
 
     private Bitmap decode64(byte[] bytes) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        byte[] decodedBytes = Base64.decode(bytes, Base64.DEFAULT);
-        Bitmap bn = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-        bn.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        return bn;
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            byte[] decodedBytes = Base64.decode(bytes, Base64.DEFAULT);
+            Bitmap bn = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+            bn.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            return bn;
+        } catch (Exception e) {
+            Log.e("Error", "Campo foto vacio");
+            return null;
+        }
+
     }
 
     @Override

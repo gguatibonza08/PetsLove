@@ -1,5 +1,8 @@
 package co.com.petslove.petslovers.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -7,7 +10,7 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.List;
 
-public class PublicacionPojo implements Serializable {
+public class PublicacionPojo implements Serializable,Parcelable {
     @SerializedName("publicacionId")
     @Expose
     private BigInteger publicacionId;
@@ -39,6 +42,31 @@ public class PublicacionPojo implements Serializable {
     public PublicacionPojo() {
 
     }
+
+    protected PublicacionPojo(Parcel in) {
+        descripcion = in.readString();
+        fotoUsuario = in.readString();
+        nombreUsuario = in.readString();
+        comentarios = in.createTypedArrayList(ComentarioPojo.CREATOR);
+        foto = in.readString();
+        if (in.readByte() == 0) {
+            likes = null;
+        } else {
+            likes = in.readInt();
+        }
+    }
+
+    public static final Creator<PublicacionPojo> CREATOR = new Creator<PublicacionPojo>() {
+        @Override
+        public PublicacionPojo createFromParcel(Parcel in) {
+            return new PublicacionPojo(in);
+        }
+
+        @Override
+        public PublicacionPojo[] newArray(int size) {
+            return new PublicacionPojo[size];
+        }
+    };
 
     public BigInteger getPublicacionId() {
         return publicacionId;
@@ -113,4 +141,23 @@ public class PublicacionPojo implements Serializable {
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(descripcion);
+        dest.writeString(fotoUsuario);
+        dest.writeString(nombreUsuario);
+        dest.writeTypedList(comentarios);
+        dest.writeString(foto);
+        if (likes == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(likes);
+        }
+    }
 }

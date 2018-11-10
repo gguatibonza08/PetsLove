@@ -6,13 +6,12 @@ import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -41,21 +40,30 @@ public class alimentoAdapter extends RecyclerView.Adapter<alimentoAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.nombreAlimento.setText(alimentos.get(position).getNombre());
-        holder.direccionAlimento.setText(alimentos.get(position).getDireccion());
-        holder.telefonoAlimento.setText(alimentos.get(position).getTelefono());
-        holder.fotoAlimento.setImageBitmap(decode64(alimentos.get(position).getFotografias().get(0).getUrl().getBytes()));
+        try {
+            holder.nombreAlimento.setText(alimentos.get(position).getNombre());
+            holder.direccionAlimento.setText(alimentos.get(position).getDireccion());
+            holder.telefonoAlimento.setText(alimentos.get(position).getTelefono());
+            holder.fotoAlimento.setImageBitmap(decode64(alimentos.get(position).getFotografias().get(0).getUrl().getBytes()));
 
+        } catch (Exception e) {
+            Log.e("Error Alimento", "Se peto en la parte Alimento");
+        }
 
     }
 
-
     private Bitmap decode64(byte[] bytes) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        byte[] decodedBytes = Base64.decode(bytes, Base64.DEFAULT);
-        Bitmap bn = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-        bn.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        return bn;
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            byte[] decodedBytes = Base64.decode(bytes, Base64.DEFAULT);
+            Bitmap bn = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+            bn.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            return bn;
+        } catch (Exception e) {
+            Log.e("Error", "Campo foto vacio");
+            return null;
+        }
+
     }
 
 

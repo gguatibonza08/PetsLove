@@ -1,13 +1,17 @@
 package co.com.petslove.petslovers.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Set;
 
 
-public class AnimalPojo {
+public class AnimalPojo implements Serializable, Parcelable {
     @SerializedName("idAnimal")
     @Expose
     private BigInteger idAnimal;
@@ -45,6 +49,30 @@ public class AnimalPojo {
     public AnimalPojo() {
         super();
     }
+
+    protected AnimalPojo(Parcel in) {
+        ciudad = in.readString();
+        departamento = in.readString();
+        descripcion = in.readString();
+        direccion = in.readString();
+        foto = in.readString();
+        status = in.readString();
+        raza = in.readString();
+        tipo = in.readString();
+        ubicacion = in.readString();
+    }
+
+    public static final Creator<AnimalPojo> CREATOR = new Creator<AnimalPojo>() {
+        @Override
+        public AnimalPojo createFromParcel(Parcel in) {
+            return new AnimalPojo(in);
+        }
+
+        @Override
+        public AnimalPojo[] newArray(int size) {
+            return new AnimalPojo[size];
+        }
+    };
 
     public BigInteger getIdAnimal() {
         return idAnimal;
@@ -135,4 +163,21 @@ public class AnimalPojo {
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(ciudad);
+        dest.writeString(departamento);
+        dest.writeString(descripcion);
+        dest.writeString(direccion);
+        dest.writeString(foto);
+        dest.writeString(status);
+        dest.writeString(raza);
+        dest.writeString(tipo);
+        dest.writeString(ubicacion);
+    }
 }

@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,21 +40,30 @@ public class veterinariaAdapter extends RecyclerView.Adapter<veterinariaAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.nombreVeterinaria.setText(veterinarias.get(position).getNombre());
-        holder.direccionVeterinaria.setText(veterinarias.get(position).getDireccion());
-        holder.telefonoVeterinaria.setText(veterinarias.get(position).getTelefono());
-        holder.fotoVeterinaria.setImageBitmap(decode64(veterinarias.get(position).getFotografias().get(0).getUrl().getBytes()));
+        try {
+            holder.nombreVeterinaria.setText(veterinarias.get(position).getNombre());
+            holder.direccionVeterinaria.setText(veterinarias.get(position).getDireccion());
+            holder.telefonoVeterinaria.setText(veterinarias.get(position).getTelefono());
+            holder.fotoVeterinaria.setImageBitmap(decode64(veterinarias.get(position).getFotografias().get(0).getUrl().getBytes()));
 
+        } catch (Exception e) {
+            Log.e("Error", "Error en veterinaria");
+        }
     }
 
     private Bitmap decode64(byte[] bytes) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        byte[] decodedBytes = Base64.decode(bytes, Base64.DEFAULT);
-        Bitmap bn = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-        bn.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        return bn;
-    }
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            byte[] decodedBytes = Base64.decode(bytes, Base64.DEFAULT);
+            Bitmap bn = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+            bn.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            return bn;
+        } catch (Exception e) {
+            Log.e("Error", "Campo foto vacio");
+            return null;
+        }
 
+    }
 
     @Override
     public int getItemCount() {

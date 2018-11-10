@@ -1,5 +1,8 @@
 package co.com.petslove.petslovers.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -10,7 +13,7 @@ import java.util.List;
 /**
  * Created by kolarte on 3/03/18.
  */
-public class TransaccionPojo implements Serializable {
+public class TransaccionPojo implements Serializable,Parcelable {
     @SerializedName("usuario")
     @Expose
     private BigInteger usuario;
@@ -78,6 +81,40 @@ public class TransaccionPojo implements Serializable {
     public TransaccionPojo() {
 
     }
+
+    protected TransaccionPojo(Parcel in) {
+        nombreUsuario = in.readString();
+        fotoUsuario = in.readString();
+        calificacionUsuario = in.readInt();
+        tipo = in.readString();
+        raza = in.readString();
+        descripcion = in.readString();
+        departamento = in.readString();
+        ciudad = in.readString();
+        direccion = in.readString();
+        ubicacion = in.readString();
+        status = in.readString();
+        activo = in.readByte() != 0;
+        if (in.readByte() == 0) {
+            precio = null;
+        } else {
+            precio = in.readInt();
+        }
+        foto = in.readString();
+        fotografias = in.createStringArrayList();
+    }
+
+    public static final Creator<TransaccionPojo> CREATOR = new Creator<TransaccionPojo>() {
+        @Override
+        public TransaccionPojo createFromParcel(Parcel in) {
+            return new TransaccionPojo(in);
+        }
+
+        @Override
+        public TransaccionPojo[] newArray(int size) {
+            return new TransaccionPojo[size];
+        }
+    };
 
     public int getCalificacionUsuario() {
         return calificacionUsuario;
@@ -207,4 +244,32 @@ public class TransaccionPojo implements Serializable {
         this.fotografias = fotografias;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(nombreUsuario);
+        dest.writeString(fotoUsuario);
+        dest.writeInt(calificacionUsuario);
+        dest.writeString(tipo);
+        dest.writeString(raza);
+        dest.writeString(descripcion);
+        dest.writeString(departamento);
+        dest.writeString(ciudad);
+        dest.writeString(direccion);
+        dest.writeString(ubicacion);
+        dest.writeString(status);
+        dest.writeByte((byte) (activo ? 1 : 0));
+        if (precio == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(precio);
+        }
+        dest.writeString(foto);
+        dest.writeStringList(fotografias);
+    }
 }

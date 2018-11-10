@@ -1,17 +1,19 @@
 package co.com.petslove.petslovers.model.rtaWS;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
 import java.math.BigInteger;
-import java.util.List;
 
 import co.com.petslove.petslovers.model.Usuario;
 
-public class RespuestaRest {
+public class RespuestaRest implements Serializable, Parcelable {
     private int codigoRespuesta;
     private String mensaje;
     private BigInteger idRest;
     private boolean confirmacion;
     private Usuario objectRest;
-    private List<Object> list;
 
 
     public RespuestaRest(int codigoRespuesta, String mensaje) {
@@ -38,6 +40,24 @@ public class RespuestaRest {
     public RespuestaRest() {
 
     }
+
+    protected RespuestaRest(Parcel in) {
+        codigoRespuesta = in.readInt();
+        mensaje = in.readString();
+        confirmacion = in.readByte() != 0;
+    }
+
+    public static final Creator<RespuestaRest> CREATOR = new Creator<RespuestaRest>() {
+        @Override
+        public RespuestaRest createFromParcel(Parcel in) {
+            return new RespuestaRest(in);
+        }
+
+        @Override
+        public RespuestaRest[] newArray(int size) {
+            return new RespuestaRest[size];
+        }
+    };
 
     public int getCodigoRespuesta() {
         return codigoRespuesta;
@@ -79,19 +99,15 @@ public class RespuestaRest {
         this.objectRest = user;
     }
 
-    public Usuario getObjectRest() {
-        return objectRest;
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public void setObjectRest(Usuario objectRest) {
-        this.objectRest = objectRest;
-    }
-
-    public List<Object> getList() {
-        return list;
-    }
-
-    public void setList(List<Object> list) {
-        this.list = list;
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(codigoRespuesta);
+        dest.writeString(mensaje);
+        dest.writeByte((byte) (confirmacion ? 1 : 0));
     }
 }

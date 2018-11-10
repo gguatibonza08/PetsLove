@@ -1,11 +1,14 @@
 package co.com.petslove.petslovers.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class Usuario implements Serializable {
+public class Usuario implements Serializable, Parcelable {
     @SerializedName("idUsuario")
     @Expose
     private int idUsuario;
@@ -42,6 +45,28 @@ public class Usuario implements Serializable {
     public Usuario() {
 
     }
+
+    protected Usuario(Parcel in) {
+        idUsuario = in.readInt();
+        nombre = in.readString();
+        correo = in.readString();
+        contraseña = in.readString();
+        calificacion = in.readInt();
+        ventas = in.readInt();
+        perfil = in.readString();
+    }
+
+    public static final Creator<Usuario> CREATOR = new Creator<Usuario>() {
+        @Override
+        public Usuario createFromParcel(Parcel in) {
+            return new Usuario(in);
+        }
+
+        @Override
+        public Usuario[] newArray(int size) {
+            return new Usuario[size];
+        }
+    };
 
     public String getNombre() {
         return nombre;
@@ -97,5 +122,21 @@ public class Usuario implements Serializable {
 
     public void setPerfil(String perfil) {
         this.perfil = perfil;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(idUsuario);
+        dest.writeString(nombre);
+        dest.writeString(correo);
+        dest.writeString(contraseña);
+        dest.writeInt(calificacion);
+        dest.writeInt(ventas);
+        dest.writeString(perfil);
     }
 }

@@ -19,6 +19,7 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Date;
 
 import co.com.petslove.petslovers.R;
 import co.com.petslove.petslovers.adapters.publicacionAdapter;
@@ -67,8 +68,13 @@ public class RedSocial extends Fragment {
                 Toast.makeText(getContext(), "me falta agregar la otra activity para esto", Toast.LENGTH_SHORT).show();
             }
         });
+        PublicacionPojo aux = new PublicacionPojo();
+        aux.setPublicacionId(null);
+        aux.setHoraPublicacion(new Date(2018 / 11 / 05, 20, 35));
+        aux.setDescripcion("que hace");
 
-        consultarPublicaciones();
+
+        //consultarPublicaciones();
 
         return view;
     }

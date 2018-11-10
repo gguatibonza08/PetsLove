@@ -40,11 +40,15 @@ public class veterinariaAdapter extends RecyclerView.Adapter<veterinariaAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.nombreVeterinaria.setText(veterinarias.get(position).getNombre());
-        holder.direccionVeterinaria.setText(veterinarias.get(position).getDireccion());
-        holder.telefonoVeterinaria.setText(veterinarias.get(position).getTelefono());
-        holder.fotoVeterinaria.setImageBitmap(decode64(veterinarias.get(position).getFotografias().get(0).getUrl().getBytes()));
+        try {
+            holder.nombreVeterinaria.setText(veterinarias.get(position).getNombre());
+            holder.direccionVeterinaria.setText(veterinarias.get(position).getDireccion());
+            holder.telefonoVeterinaria.setText(veterinarias.get(position).getTelefono());
+            holder.fotoVeterinaria.setImageBitmap(decode64(veterinarias.get(position).getFotografias().get(0).getUrl().getBytes()));
 
+        } catch (Exception e) {
+            Log.e("Error", "Error en veterinaria");
+        }
     }
 
     private Bitmap decode64(byte[] bytes) {

@@ -1,9 +1,13 @@
 
 package co.com.petslove.petslovers.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +16,7 @@ import java.util.List;
 /**
  * @author: KevinOlarte
  */
-public class EstablecimientoPojo {
+public class EstablecimientoPojo implements Serializable,Parcelable {
     @SerializedName("idEstablecimiento")
     @Expose
     private BigInteger idEstablecimiento;
@@ -47,6 +51,29 @@ public class EstablecimientoPojo {
 	public EstablecimientoPojo() {
 		this.fotografias = new ArrayList<>();
 	}
+
+	protected EstablecimientoPojo(Parcel in) {
+		calificacion = in.readInt();
+		correo = in.readString();
+		direccion = in.readString();
+		nombre = in.readString();
+		password = in.readString();
+		telefono = in.readInt();
+		tipo = in.readString();
+	}
+
+	public static final Creator<EstablecimientoPojo> CREATOR = new Creator<EstablecimientoPojo>() {
+		@Override
+		public EstablecimientoPojo createFromParcel(Parcel in) {
+			return new EstablecimientoPojo(in);
+		}
+
+		@Override
+		public EstablecimientoPojo[] newArray(int size) {
+			return new EstablecimientoPojo[size];
+		}
+	};
+
 	public BigInteger getIdEstablecimiento() {
 		return idEstablecimiento;
 	}
@@ -107,6 +134,21 @@ public class EstablecimientoPojo {
 	public void setFotografias(List<FotografiaPojo> fotografias) {
 		this.fotografias = fotografias;
 	}
-	
-	
+
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeInt(calificacion);
+		dest.writeString(correo);
+		dest.writeString(direccion);
+		dest.writeString(nombre);
+		dest.writeString(password);
+		dest.writeInt(telefono);
+		dest.writeString(tipo);
+	}
 }

@@ -70,7 +70,7 @@ public class RedSocial extends Fragment {
                 Toast.makeText(getContext(), "me falta agregar la otra activity para esto", Toast.LENGTH_SHORT).show();
             }
         });
-        PublicacionPojo aux = new PublicacionPojo();
+       /* PublicacionPojo aux = new PublicacionPojo();
         aux.setPublicacionId(null);
         aux.setHoraPublicacion("nueva fecah");
         aux.setDescripcion("que hace");
@@ -110,8 +110,8 @@ public class RedSocial extends Fragment {
         publicaciones = new ArrayList<>();
         publicaciones.add(aux);
         publicaciones.add(aux1);
-        referenciar();
-        //consultarPublicaciones();
+        referenciar();*/
+        consultarPublicaciones();
 
         return view;
     }

@@ -58,7 +58,6 @@ public class publicacionAdapter extends RecyclerView.Adapter<publicacionAdapter.
             holder.cantidadLikes.setText(listaPublicaciones.get(position).getLikes() + " me Encorazonan.");
             holder.cantidadComentarios.setText(listaPublicaciones.get(position).getComentarios().size() + " comentarios");
             if (listaPublicaciones.get(position).getComentarios().size() > 0) {
-                Log.e("adapter", "mayor a 0");
                 holder.comentarios.setVisibility(View.VISIBLE);
                 comentarioAdapter comentarioAdapter = new comentarioAdapter(context, listaPublicaciones.get(position).getComentarios());
                 holder.comentarios.setLayoutManager(new LinearLayoutManager(context));

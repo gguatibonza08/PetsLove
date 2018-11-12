@@ -1,5 +1,6 @@
 package co.com.petslove.petslovers.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,12 +15,15 @@ import java.util.ArrayList;
 
 import co.com.petslove.petslovers.R;
 import co.com.petslove.petslovers.adapters.animalAdapter;
+import co.com.petslove.petslovers.interfaces.enviarDatos;
 import co.com.petslove.petslovers.model.TransaccionPojo;
 
 public class home extends Fragment {
     private OnFragmentInteractionListener mListener;
     private RecyclerView animales;
+    Activity activity;
     private ArrayList<TransaccionPojo> ListAnimales;
+    private enviarDatos envio;
 
     public home() {
         // Required empty public constructor
@@ -57,7 +61,12 @@ public class home extends Fragment {
         animalAdapter adapter = new animalAdapter(getContext(), ListAnimales);
         animales.setLayoutManager(new LinearLayoutManager(getContext()));
         animales.setAdapter(adapter);
-
+        adapter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                envio.EnviarDetalle(ListAnimales.get(animales.getChildAdapterPosition(v)));
+            }
+        });
 
     }
 
@@ -71,6 +80,10 @@ public class home extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        if (context instanceof Activity) {
+            this.activity = (Activity) context;
+            envio = (enviarDatos) this.activity;
+        }
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
@@ -89,4 +102,5 @@ public class home extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
 }

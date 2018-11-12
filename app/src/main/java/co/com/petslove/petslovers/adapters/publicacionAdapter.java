@@ -16,8 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
-import java.text.Format;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import co.com.petslove.petslovers.R;
@@ -25,7 +23,6 @@ import co.com.petslove.petslovers.model.PublicacionPojo;
 
 public class publicacionAdapter extends RecyclerView.Adapter<publicacionAdapter.ViewHolder> implements View.OnClickListener {
 
-    private Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private Context context;
     private List<PublicacionPojo> listaPublicaciones;
     private View.OnClickListener listener;
@@ -48,15 +45,20 @@ public class publicacionAdapter extends RecyclerView.Adapter<publicacionAdapter.
     public void onBindViewHolder(@NonNull publicacionAdapter.ViewHolder holder, int position) {
 
         try {
+            Log.e("pruebaAdapter", "inicioa la relacion");
             holder.nombreUsuario.setText(listaPublicaciones.get(position).getNombreUsuario());
             holder.perfilUsuario.setImageBitmap(decode64(listaPublicaciones.get(position).getFotoUsuario().getBytes()));
-            String fecha = formatter.format(listaPublicaciones.get(position).getHoraPublicacion());
-            holder.fechaPublicacion.setText("Publicado el: " + fecha);
+            Log.e("pruebaAdapter", "hasta aquí vamos bien");
+            holder.fechaPublicacion.setText("Publicado el: " + listaPublicaciones.get(position).getHoraPublicacion());
+            Log.e("pruebaAdapter", "se agrego la fehca");
             holder.contenido.setText(listaPublicaciones.get(position).getDescripcion());
+            Log.e("pruebaAdapter", "se agrego el contenido");
             holder.fotoPublicacion.setImageBitmap(decode64(listaPublicaciones.get(position).getFoto().getBytes()));
-
+            Log.e("pruebaAdapter", "se agrego la foto");
             holder.cantidadLikes.setText(listaPublicaciones.get(position).getLikes() + " me Encorazonan.");
+            Log.e("pruebaAdapter", "se agregaron los likes");
             holder.cantidadComentarios.setText(listaPublicaciones.get(position).getComentarios().size() + " comentarios");
+            Log.e("pruebaAdapter", "se agrego los comentarios");
             if (listaPublicaciones.get(position).getComentarios().size() > 0) {
                 holder.comentarios.setVisibility(View.VISIBLE);
                 comentarioAdapter comentarioAdapter = new comentarioAdapter(context, listaPublicaciones.get(position).getComentarios());
@@ -84,6 +86,9 @@ public class publicacionAdapter extends RecyclerView.Adapter<publicacionAdapter.
 
     private Bitmap decode64(byte[] bytes) {
         try {
+            
+            Log.e("pruebaAdapter", "se ba a convertir la base64");
+            Log.e("pruebaAdapter", bytes.length + "");
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             byte[] decodedBytes = Base64.decode(bytes, Base64.DEFAULT);
             Bitmap bn = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);

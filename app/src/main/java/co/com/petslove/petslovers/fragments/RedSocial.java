@@ -135,12 +135,34 @@ public class RedSocial extends Fragment {
                     final ArrayList<PublicacionPojo> respuesta = new Gson().fromJson(rta, listType);
                     publicaciones = new ArrayList<>();
                     for (PublicacionPojo iter : respuesta) {
+<<<<<<< HEAD
                         publicaciones.add(iter);
+=======
+                        PublicacionPojo pub = new PublicacionPojo();
+                        pub.setFoto(iter.getFoto());
+                        pub.setComentarios(iter.getComentarios());
+                        pub.setDescripcion(iter.getDescripcion());
+                        pub.setFotoUsuario(iter.getFotoUsuario());
+                        pub.setHoraPublicacion(iter.getHoraPublicacion());
+                        pub.setLikes(iter.getLikes());
+                        pub.setNombreUsuario(iter.getNombreUsuario());
+                        pub.setPublicacionId(iter.getPublicacionId());
+                        pub.setUsuario(iter.getUsuario());
+                        publicaciones.add(pub);
+                        Log.i("servicio", iter.getDescripcion());
+                        Log.i("servicio", iter.getFoto() + "");
+                        Log.i("servicio", iter.getNombreUsuario() + "");
+>>>>>>> e4389f12e814809d7f23165462f93475f970e216
                     }
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+<<<<<<< HEAD
                             publicacionAdapter publicacionAdapter = new publicacionAdapter(getContext(), respuesta);
+=======
+                            Log.i("servicio", respuesta.size() + "");
+                            publicacionAdapter publicacionAdapter = new publicacionAdapter(getContext(), publicaciones);
+>>>>>>> e4389f12e814809d7f23165462f93475f970e216
                             redSocial.setLayoutManager(new LinearLayoutManager(getContext()));
                             redSocial.setAdapter(publicacionAdapter);
                         }

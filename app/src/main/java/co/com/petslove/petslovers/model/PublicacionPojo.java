@@ -8,7 +8,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.math.BigInteger;
-import java.util.Date;
 import java.util.List;
 
 public class PublicacionPojo implements Serializable,Parcelable {
@@ -17,7 +16,7 @@ public class PublicacionPojo implements Serializable,Parcelable {
     private BigInteger publicacionId;
     @SerializedName("horaPublicacion")
     @Expose
-    private Date horaPublicacion;
+    private String horaPublicacion;
     @SerializedName("descripcion")
     @Expose
     private String descripcion;
@@ -77,11 +76,11 @@ public class PublicacionPojo implements Serializable,Parcelable {
         this.publicacionId = publicacionId;
     }
 
-    public Date getHoraPublicacion() {
+    public String getHoraPublicacion() {
         return horaPublicacion;
     }
 
-    public void setHoraPublicacion(Date horaPublicacion) {
+    public void setHoraPublicacion(String horaPublicacion) {
         this.horaPublicacion = horaPublicacion;
     }
 

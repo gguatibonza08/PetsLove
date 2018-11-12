@@ -111,7 +111,7 @@ public class RedSocial extends Fragment {
         publicaciones.add(aux);
         publicaciones.add(aux1);
         referenciar();*/
-        consultarPublicaciones();
+      //  consultarPublicaciones();
 
         return view;
     }

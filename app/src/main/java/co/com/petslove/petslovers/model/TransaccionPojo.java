@@ -2,18 +2,20 @@ package co.com.petslove.petslovers.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by kolarte on 3/03/18.
  */
-public class TransaccionPojo implements Serializable,Parcelable {
+public class TransaccionPojo implements Serializable, Parcelable {
     @SerializedName("usuario")
     @Expose
     private BigInteger usuario;
@@ -68,7 +70,7 @@ public class TransaccionPojo implements Serializable,Parcelable {
     private List<String> fotografias;
 
 
-    public TransaccionPojo(String nombreUsuario, String fotoUsuario, int calificacionUsuario, String ciudad, String direccion, Integer precio, String foto) {
+    public TransaccionPojo(String nombreUsuario, String fotoUsuario, int calificacionUsuario, String ciudad, String direccion, Integer precio, String foto, ArrayList<String> fotos) {
         this.nombreUsuario = nombreUsuario;
         this.fotoUsuario = fotoUsuario;
         this.calificacionUsuario = calificacionUsuario;
@@ -76,6 +78,10 @@ public class TransaccionPojo implements Serializable,Parcelable {
         this.direccion = direccion;
         this.precio = precio;
         this.foto = foto;
+        this.raza = "prueba2";
+        this.descripcion = "aosfas osbfas ifsvaf asiufva";
+        this.fotografias = fotos;
+        Log.e("fotosize", this.fotografias.size() + "");
     }
 
     public TransaccionPojo() {

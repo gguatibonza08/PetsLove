@@ -44,42 +44,39 @@ public class publicacionAdapter extends RecyclerView.Adapter<publicacionAdapter.
     @Override
     public void onBindViewHolder(@NonNull publicacionAdapter.ViewHolder holder, int position) {
 
-        try {
-            Log.e("pruebaAdapter", "inicioa la relacion");
-            holder.nombreUsuario.setText(listaPublicaciones.get(position).getNombreUsuario());
-            holder.perfilUsuario.setImageBitmap(decode64(listaPublicaciones.get(position).getFotoUsuario().getBytes()));
-            Log.e("pruebaAdapter", "hasta aquí vamos bien");
-            holder.fechaPublicacion.setText("Publicado el: " + listaPublicaciones.get(position).getHoraPublicacion());
-            Log.e("pruebaAdapter", "se agrego la fehca");
-            holder.contenido.setText(listaPublicaciones.get(position).getDescripcion());
-            Log.e("pruebaAdapter", "se agrego el contenido");
-            holder.fotoPublicacion.setImageBitmap(decode64(listaPublicaciones.get(position).getFoto().getBytes()));
-            Log.e("pruebaAdapter", "se agrego la foto");
-            holder.cantidadLikes.setText(listaPublicaciones.get(position).getLikes() + " me Encorazonan.");
-            Log.e("pruebaAdapter", "se agregaron los likes");
-            holder.cantidadComentarios.setText(listaPublicaciones.get(position).getComentarios().size() + " comentarios");
-            Log.e("pruebaAdapter", "se agrego los comentarios");
-            if (listaPublicaciones.get(position).getComentarios().size() > 0) {
-                holder.comentarios.setVisibility(View.VISIBLE);
-                comentarioAdapter comentarioAdapter = new comentarioAdapter(context, listaPublicaciones.get(position).getComentarios());
-                holder.comentarios.setLayoutManager(new LinearLayoutManager(context));
-                holder.comentarios.setAdapter(comentarioAdapter);
-            }
-            holder.like.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(context, "agregar un like", Toast.LENGTH_SHORT).show();
-                }
-            });
-            holder.comentar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(context, "agregar un comentario", Toast.LENGTH_SHORT).show();
-                }
-            });
-        } catch (Exception e) {
-            Log.e("Error Publicacion", "Se peto en la parte de Red Social");
+
+        Log.e("pruebaAdapter", "inicioa la relacion");
+        holder.nombreUsuario.setText(listaPublicaciones.get(position).getNombreUsuario());
+        holder.perfilUsuario.setImageBitmap(decode64(listaPublicaciones.get(position).getFotoUsuario().getBytes()));
+        Log.e("pruebaAdapter", "hasta aquí vamos bien");
+        holder.fechaPublicacion.setText("Publicado el: " + listaPublicaciones.get(position).getHoraPublicacion());
+        Log.e("pruebaAdapter", "se agrego la fehca");
+        holder.contenido.setText(listaPublicaciones.get(position).getDescripcion());
+        Log.e("pruebaAdapter", "se agrego el contenido");
+        holder.fotoPublicacion.setImageBitmap(decode64(listaPublicaciones.get(position).getFoto().getBytes()));
+        Log.e("pruebaAdapter", "se agrego la foto");
+        holder.cantidadLikes.setText(listaPublicaciones.get(position).getLikes().toString() + " me Encorazonan.");
+        Log.e("pruebaAdapter", "se agregaron los likes");
+        holder.cantidadComentarios.setText(listaPublicaciones.get(position).getComentarios().size() + " comentarios");
+        Log.e("pruebaAdapter", "se agrego los comentarios");
+        if (listaPublicaciones.get(position).getComentarios().size() > 0) {
+            holder.comentarios.setVisibility(View.VISIBLE);
+            comentarioAdapter comentarioAdapter = new comentarioAdapter(context, listaPublicaciones.get(position).getComentarios());
+            holder.comentarios.setLayoutManager(new LinearLayoutManager(context));
+            holder.comentarios.setAdapter(comentarioAdapter);
         }
+        holder.like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, "agregar un like", Toast.LENGTH_SHORT).show();
+            }
+        });
+        holder.comentar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, "agregar un comentario", Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
     }

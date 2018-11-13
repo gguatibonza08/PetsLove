@@ -92,7 +92,6 @@ public class comentarioAdapter extends RecyclerView.Adapter<comentarioAdapter.Vi
 
         public ViewHolder(View itemView) {
             super(itemView);
-
             perfilUsuario = itemView.findViewById(R.id.fotoUsuarioComentario);
             nombreUsuario = itemView.findViewById(R.id.nombreUsuarioComentario);
             fechaComentario = itemView.findViewById(R.id.fechaComentario);

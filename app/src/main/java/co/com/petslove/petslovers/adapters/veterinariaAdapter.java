@@ -43,7 +43,8 @@ public class veterinariaAdapter extends RecyclerView.Adapter<veterinariaAdapter.
         try {
             holder.nombreVeterinaria.setText(veterinarias.get(position).getNombre());
             holder.direccionVeterinaria.setText(veterinarias.get(position).getDireccion());
-            holder.telefonoVeterinaria.setText(veterinarias.get(position).getTelefono());
+            holder.telefonoVeterinaria.setText(veterinarias.get(position).getTelefono() + "");
+            holder.descripcionVeterinaria.setText(veterinarias.get(position).getDescripcion());
             holder.fotoVeterinaria.setImageBitmap(decode64(veterinarias.get(position).getFotografias().get(0).getBytes()));
 
         } catch (Exception e) {

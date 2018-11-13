@@ -43,7 +43,8 @@ public class alimentoAdapter extends RecyclerView.Adapter<alimentoAdapter.ViewHo
         try {
             holder.nombreAlimento.setText(alimentos.get(position).getNombre());
             holder.direccionAlimento.setText(alimentos.get(position).getDireccion());
-            holder.telefonoAlimento.setText(alimentos.get(position).getTelefono());
+            holder.telefonoAlimento.setText(alimentos.get(position).getTelefono() + "");
+            holder.descripcionAlimento.setText(alimentos.get(position).getDescripcion());
             holder.fotoAlimento.setImageBitmap(decode64(alimentos.get(position).getFotografias().get(0).getBytes()));
 
         } catch (Exception e) {

@@ -42,14 +42,15 @@ public class estilistaAdapter extends RecyclerView.Adapter<estilistaAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull estilistaAdapter.ViewHolder holder, int position) {
-        try{
+        try {
             holder.nombreEstilista.setText(estilistas.get(position).getNombre());
             holder.direccionEstilista.setText(estilistas.get(position).getDireccion());
-            holder.telefonoEstilista.setText(estilistas.get(position).getTelefono());
+            holder.telefonoEstilista.setText(estilistas.get(position).getTelefono() + "");
+            holder.descripcionEstilista.setText(estilistas.get(position).getDescripcion());
             Picasso.get().load(estilistas.get(position).getFotografias().get(0)).into(holder.fotoEstilista);
 
-        }catch (Exception e){
-            Log.e("Error","Error en estilista");
+        } catch (Exception e) {
+            Log.e("Error", "Error en estilista");
         }
     }
 

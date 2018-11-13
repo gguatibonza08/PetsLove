@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,12 +24,9 @@ import co.com.petslove.petslovers.model.EstablecimientoPojo;
 import co.com.petslove.petslovers.utilidades.EstablecimientosEnum;
 import okhttp3.Call;
 import okhttp3.Callback;
-
 import okhttp3.FormBody;
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
@@ -66,7 +62,7 @@ public class Paseador extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_paseador, container, false);
         paseadores = view.findViewById(R.id.listaPaseadores);
-       ConsultaEstablecimientos();
+        ConsultaEstablecimientos();
         return view;
     }
 
@@ -113,10 +109,10 @@ public class Paseador extends Fragment {
     public void ConsultaEstablecimientos() {
 
         OkHttpClient client = new OkHttpClient();
-        RequestBody formBody = new FormBody.Builder().add("tipo",EstablecimientosEnum.PASEADOR.getNombre()).build();
+        RequestBody formBody = new FormBody.Builder().add("tipo", EstablecimientosEnum.PASEADOR.getNombre()).build();
 
         Request request = new Request.Builder()
-                .url("http://"+getString( R.string.ip )+":8080/establecimientosTipo").post(formBody)
+                .url("http://" + getString(R.string.ip) + ":8080/establecimientosTipo").post(formBody)
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
@@ -137,8 +133,7 @@ public class Paseador extends Fragment {
                     final ArrayList<EstablecimientoPojo> establecimientos = new Gson().fromJson(rta, listType);
 
 
-                    for(EstablecimientoPojo iter: establecimientos){
-                        Log.i("iter",iter.getDireccion());
+                    for (EstablecimientoPojo iter : establecimientos) {
                         listPaseadores.add(iter);
                     }
 

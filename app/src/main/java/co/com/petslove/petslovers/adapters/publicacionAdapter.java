@@ -79,9 +79,6 @@ public class publicacionAdapter extends RecyclerView.Adapter<publicacionAdapter.
 
     private Bitmap decode64(byte[] bytes) {
         try {
-
-            Log.e("pruebaAdapter", "se ba a convertir la base64");
-            Log.e("pruebaAdapter", bytes.length + "");
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             byte[] decodedBytes = Base64.decode(bytes, Base64.DEFAULT);
             Bitmap bn = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);

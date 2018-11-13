@@ -57,7 +57,7 @@ public class Alimento extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View view = inflater.inflate(R.layout.fragment_alimento, container, false);
         alimentos = view.findViewById(R.id.listAlimentos);
         consultarAlimento();
@@ -101,6 +101,7 @@ public class Alimento extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
     /**
      * @Author Kevin Joel Olarte
      * 7/11/2018
@@ -108,10 +109,10 @@ public class Alimento extends Fragment {
     public void ConsultaEstablecimientos() {
 
         OkHttpClient client = new OkHttpClient();
-        RequestBody formBody = new FormBody.Builder().add("tipo",EstablecimientosEnum.ALIMENTO.getNombre()).build();
+        RequestBody formBody = new FormBody.Builder().add("tipo", EstablecimientosEnum.ALIMENTO.getNombre()).build();
 
         Request request = new Request.Builder()
-                .url("http://"+getString( R.string.ip )+":8080/establecimientosTipo").post(formBody)
+                .url("http://" + getString(R.string.ip) + ":8080/establecimientosTipo").post(formBody)
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
@@ -132,8 +133,8 @@ public class Alimento extends Fragment {
                     final ArrayList<EstablecimientoPojo> establecimientos = new Gson().fromJson(rta, listType);
 
 
-                    for(EstablecimientoPojo iter: establecimientos){
-                        Log.i("iter",iter.getDireccion());
+                    for (EstablecimientoPojo iter : establecimientos) {
+                        Log.i("iter", iter.getDireccion());
                         listAlimentos.add(iter);
                     }
 

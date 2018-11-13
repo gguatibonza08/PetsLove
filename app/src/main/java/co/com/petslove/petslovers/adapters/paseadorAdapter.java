@@ -39,15 +39,16 @@ public class paseadorAdapter extends RecyclerView.Adapter<paseadorAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-      try{
-          holder.nombrePaseador.setText(paseadores.get(position).getNombre());
-          holder.direccionPaseador.setText(paseadores.get(position).getDireccion());
-          holder.telefonoPaseador.setText(paseadores.get(position).getTelefono());
-          holder.fotoPaseador.setImageBitmap(decode64(paseadores.get(position).getFotografias().get(0).getBytes()));
+        try {
+            holder.nombrePaseador.setText(paseadores.get(position).getNombre());
+            holder.direccionPaseador.setText(paseadores.get(position).getDireccion());
+            holder.telefonoPaseador.setText(paseadores.get(position).getTelefono() + "");
+            holder.descripcionPaseador.setText(paseadores.get(position).getDescripcion());
+            holder.fotoPaseador.setImageBitmap(decode64(paseadores.get(position).getFotografias().get(0).getBytes()));
 
-      }catch (Exception e){
-          Log.e("Error","Error en paseador");
-      }
+        } catch (Exception e) {
+            Log.e("Erro", e.getMessage());
+        }
     }
 
     private Bitmap decode64(byte[] bytes) {

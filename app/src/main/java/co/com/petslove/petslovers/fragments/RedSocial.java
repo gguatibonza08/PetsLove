@@ -177,16 +177,26 @@ public class RedSocial extends Fragment {
                     final ArrayList<PublicacionPojo> respuesta = new Gson().fromJson(rta, listType);
                     publicaciones = new ArrayList<>();
                     for (PublicacionPojo iter : respuesta) {
-                        publicaciones.add(iter);
+                        PublicacionPojo pub = new PublicacionPojo();
+                        pub.setFoto(iter.getFoto());
+                        pub.setComentarios(iter.getComentarios());
+                        pub.setDescripcion(iter.getDescripcion());
+                        pub.setFotoUsuario(iter.getFotoUsuario());
+                        pub.setHoraPublicacion(iter.getHoraPublicacion());
+                        pub.setLikes(iter.getLikes());
+                        pub.setNombreUsuario(iter.getNombreUsuario());
+                        pub.setPublicacionId(iter.getPublicacionId());
+                        pub.setUsuario(iter.getUsuario());
+                        publicaciones.add(pub);
                         Log.i("servicio", iter.getDescripcion());
-                        Log.i("servicio", iter.getLikes() + "");
+                        Log.i("servicio", iter.getFoto() + "");
                         Log.i("servicio", iter.getNombreUsuario() + "");
                     }
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             Log.i("servicio", respuesta.size() + "");
-                            publicacionAdapter publicacionAdapter = new publicacionAdapter(getContext(), respuesta);
+                            publicacionAdapter publicacionAdapter = new publicacionAdapter(getContext(), publicaciones);
                             redSocial.setLayoutManager(new LinearLayoutManager(getContext()));
                             redSocial.setAdapter(publicacionAdapter);
                         }

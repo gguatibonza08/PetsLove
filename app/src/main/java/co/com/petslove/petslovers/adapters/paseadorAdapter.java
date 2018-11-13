@@ -43,7 +43,7 @@ public class paseadorAdapter extends RecyclerView.Adapter<paseadorAdapter.ViewHo
           holder.nombrePaseador.setText(paseadores.get(position).getNombre());
           holder.direccionPaseador.setText(paseadores.get(position).getDireccion());
           holder.telefonoPaseador.setText(paseadores.get(position).getTelefono());
-          holder.fotoPaseador.setImageBitmap(decode64(paseadores.get(position).getFotografias().get(0).getUrl().getBytes()));
+          holder.fotoPaseador.setImageBitmap(decode64(paseadores.get(position).getFotografias().get(0).getBytes()));
 
       }catch (Exception e){
           Log.e("Error","Error en paseador");

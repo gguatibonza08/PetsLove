@@ -46,7 +46,7 @@ public class EstablecimientoPojo implements Serializable,Parcelable {
     private BigInteger usuario;
     @SerializedName("fotografias")
     @Expose
-	private List<FotografiaPojo> fotografias;
+	private List<String> fotografias;
 	
 	public EstablecimientoPojo() {
 		this.fotografias = new ArrayList<>();
@@ -128,10 +128,10 @@ public class EstablecimientoPojo implements Serializable,Parcelable {
 	public void setUsuario(BigInteger usuario) {
 		this.usuario = usuario;
 	}
-	public List<FotografiaPojo> getFotografias() {
+	public List<String> getFotografias() {
 		return fotografias;
 	}
-	public void setFotografias(List<FotografiaPojo> fotografias) {
+	public void setFotografias(List<String> fotografias) {
 		this.fotografias = fotografias;
 	}
 

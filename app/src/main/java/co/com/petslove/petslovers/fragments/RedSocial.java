@@ -14,17 +14,14 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
-import java.math.BigInteger;
 import java.util.ArrayList;
 
 import co.com.petslove.petslovers.R;
 import co.com.petslove.petslovers.adapters.publicacionAdapter;
-import co.com.petslove.petslovers.model.ComentarioPojo;
 import co.com.petslove.petslovers.model.PublicacionPojo;
+import co.com.petslove.petslovers.model.respuestaPublicacion;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -69,7 +66,7 @@ public class RedSocial extends Fragment {
                 Toast.makeText(getContext(), "me falta agregar la otra activity para esto", Toast.LENGTH_SHORT).show();
             }
         });
-        PublicacionPojo aux = new PublicacionPojo();
+        /*  PublicacionPojo aux = new PublicacionPojo();
         aux.setPublicacionId(null);
         aux.setHoraPublicacion("2018/11/05 20:35");
         aux.setDescripcion("que hace");
@@ -107,8 +104,8 @@ public class RedSocial extends Fragment {
         publicaciones = new ArrayList<>();
         publicaciones.add(aux);
         publicaciones.add(aux1);
-        referenciar();
-        //  consultarPublicaciones();
+        referenciar();*/
+        consultarPublicaciones();
 
         return view;
     }
@@ -156,7 +153,7 @@ public class RedSocial extends Fragment {
     public void consultarPublicaciones() {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
-                .url("http://" + getString(R.string.ip) + ":8080/consultarPublicaciones")
+                .url("http://192.168.1.13:8080/consultarPublicaciones")
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
@@ -169,14 +166,10 @@ public class RedSocial extends Fragment {
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String rta = response.body().string();
-                    Log.i("exito", "rta " + rta);
-                    Gson gson = new Gson();
-                    Type listType = new
-                            TypeToken<ArrayList<PublicacionPojo>>() {
-                            }.getType();
-                    final ArrayList<PublicacionPojo> respuesta = new Gson().fromJson(rta, listType);
+                    respuestaPublicacion respuesta = new Gson().fromJson(rta, respuestaPublicacion.class);
                     publicaciones = new ArrayList<>();
-                    for (PublicacionPojo iter : respuesta) {
+
+                    for (PublicacionPojo iter : respuesta.getObjectRest()) {
                         PublicacionPojo pub = new PublicacionPojo();
                         pub.setFoto(iter.getFoto());
                         pub.setComentarios(iter.getComentarios());
@@ -188,14 +181,10 @@ public class RedSocial extends Fragment {
                         pub.setPublicacionId(iter.getPublicacionId());
                         pub.setUsuario(iter.getUsuario());
                         publicaciones.add(pub);
-                        Log.i("servicio", iter.getDescripcion());
-                        Log.i("servicio", iter.getFoto() + "");
-                        Log.i("servicio", iter.getNombreUsuario() + "");
                     }
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Log.i("servicio", respuesta.size() + "");
                             publicacionAdapter publicacionAdapter = new publicacionAdapter(getContext(), publicaciones);
                             redSocial.setLayoutManager(new LinearLayoutManager(getContext()));
                             redSocial.setAdapter(publicacionAdapter);

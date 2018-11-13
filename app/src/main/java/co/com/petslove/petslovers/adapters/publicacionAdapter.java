@@ -43,32 +43,36 @@ public class publicacionAdapter extends RecyclerView.Adapter<publicacionAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull publicacionAdapter.ViewHolder holder, int position) {
-        
-        holder.nombreUsuario.setText(listaPublicaciones.get(position).getNombreUsuario());
-        holder.perfilUsuario.setImageBitmap(decode64(listaPublicaciones.get(position).getFotoUsuario().getBytes()));
-        holder.fechaPublicacion.setText("Publicado el: " + listaPublicaciones.get(position).getHoraPublicacion());
-        holder.contenido.setText(listaPublicaciones.get(position).getDescripcion());
-        holder.fotoPublicacion.setImageBitmap(decode64(listaPublicaciones.get(position).getFoto().getBytes()));
-        holder.cantidadLikes.setText(listaPublicaciones.get(position).getLikes().toString() + " me Encorazonan.");
-        holder.cantidadComentarios.setText(listaPublicaciones.get(position).getComentarios().size() + " comentarios");
-        if (listaPublicaciones.get(position).getComentarios().size() > 0) {
-            holder.comentarios.setVisibility(View.VISIBLE);
-            comentarioAdapter comentarioAdapter = new comentarioAdapter(context, listaPublicaciones.get(position).getComentarios());
-            holder.comentarios.setLayoutManager(new LinearLayoutManager(context));
-            holder.comentarios.setAdapter(comentarioAdapter);
+
+        try {
+            holder.nombreUsuario.setText(listaPublicaciones.get(position).getNombreUsuario());
+            holder.perfilUsuario.setImageBitmap(decode64(listaPublicaciones.get(position).getFotoUsuario().getBytes()));
+            holder.fechaPublicacion.setText("Publicado el: " + listaPublicaciones.get(position).getHoraPublicacion());
+            holder.contenido.setText(listaPublicaciones.get(position).getDescripcion());
+            holder.fotoPublicacion.setImageBitmap(decode64(listaPublicaciones.get(position).getFoto().getBytes()));
+            holder.cantidadLikes.setText(listaPublicaciones.get(position).getLikes().toString() + " me Encorazonan.");
+            holder.cantidadComentarios.setText(listaPublicaciones.get(position).getComentarios().size() + " comentarios");
+            if (listaPublicaciones.get(position).getComentarios().size() > 0) {
+                holder.comentarios.setVisibility(View.VISIBLE);
+                comentarioAdapter comentarioAdapter = new comentarioAdapter(context, listaPublicaciones.get(position).getComentarios());
+                holder.comentarios.setLayoutManager(new LinearLayoutManager(context));
+                holder.comentarios.setAdapter(comentarioAdapter);
+            }
+            holder.like.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context, "agregar un like", Toast.LENGTH_SHORT).show();
+                }
+            });
+            holder.comentar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context, "agregar un comentario", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } catch (Exception e) {
+            Log.e("ERROR", e.getMessage());
         }
-        holder.like.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, "agregar un like", Toast.LENGTH_SHORT).show();
-            }
-        });
-        holder.comentar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, "agregar un comentario", Toast.LENGTH_SHORT).show();
-            }
-        });
 
 
     }

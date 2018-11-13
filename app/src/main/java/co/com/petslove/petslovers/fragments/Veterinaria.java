@@ -59,10 +59,10 @@ public class Veterinaria extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View view = inflater.inflate(R.layout.fragment_veterinaria, container, false);
         veterinarias = view.findViewById(R.id.listVeterinarias);
-        consultar();
+        ConsultaEstablecimientos();
         return view;
     }
 
@@ -105,17 +105,19 @@ public class Veterinaria extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
     /**
      * @Author Kevin Joel Olarte
      * 7/11/2018
      */
     public void ConsultaEstablecimientos() {
-
+        Log.i("Veterinaria", "rta " + "nos fuimos");
+        listVeterinarias = new ArrayList<>();
         OkHttpClient client = new OkHttpClient();
-        RequestBody formBody = new FormBody.Builder().add("tipo",EstablecimientosEnum.VETERINARIA.getNombre()).build();
+        RequestBody formBody = new FormBody.Builder().add("tipo", EstablecimientosEnum.VETERINARIA.getNombre()).build();
 
         Request request = new Request.Builder()
-                .url("http://"+getString( R.string.ip )+":8080/establecimientosTipo").post(formBody)
+                .url("http://" + getString(R.string.ip) + ":8080/establecimientosTipo").post(formBody)
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
@@ -128,7 +130,7 @@ public class Veterinaria extends Fragment {
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String rta = response.body().string();
-                    Log.i("exito_estilista", "rta " + rta);
+                    Log.i("Veterinaria", "rta " + rta);
                     Gson gson = new Gson();
                     Type listType = new
                             TypeToken<ArrayList<EstablecimientoPojo>>() {
@@ -136,15 +138,14 @@ public class Veterinaria extends Fragment {
                     final ArrayList<EstablecimientoPojo> establecimientos = new Gson().fromJson(rta, listType);
 
 
-                    for(EstablecimientoPojo iter: establecimientos){
-                        Log.i("iter",iter.getDireccion());
+                    for (EstablecimientoPojo iter : establecimientos) {
+                        Log.i("iter", iter.getDireccion());
                         listVeterinarias.add(iter);
                     }
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            listVeterinarias = new ArrayList<>();
                             veterinariaAdapter adapter = new veterinariaAdapter(getContext(), listVeterinarias);
                             veterinarias.setLayoutManager(new LinearLayoutManager(getContext()));
                             veterinarias.setAdapter(adapter);

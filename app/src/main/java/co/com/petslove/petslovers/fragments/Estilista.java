@@ -4,7 +4,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -63,7 +62,7 @@ public class Estilista extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_estilista, container, false);
         estilistas = view.findViewById(R.id.ListEstilistas);
-        consultarEstilistas();
+        ConsultaEstablecimientos();
         return view;
     }
 
@@ -108,12 +107,12 @@ public class Estilista extends Fragment {
      * 7/11/2018
      */
     public void ConsultaEstablecimientos() {
-
+        listEstilistas = new ArrayList<>();
         OkHttpClient client = new OkHttpClient();
-        RequestBody formBody = new FormBody.Builder().add("tipo",EstablecimientosEnum.ESTILISTA.getNombre()).build();
+        RequestBody formBody = new FormBody.Builder().add("tipo", EstablecimientosEnum.ESTILISTA.getNombre()).build();
 
         Request request = new Request.Builder()
-                .url("http://"+getString( R.string.ip )+":8080/establecimientosTipo").post(formBody)
+                .url("http://" + getString(R.string.ip) + ":8080/establecimientosTipo").post(formBody)
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
@@ -134,8 +133,8 @@ public class Estilista extends Fragment {
                     final ArrayList<EstablecimientoPojo> establecimientos = new Gson().fromJson(rta, listType);
 
 
-                    for(EstablecimientoPojo iter: establecimientos){
-                        Log.i("iter",iter.getDireccion());
+                    for (EstablecimientoPojo iter : establecimientos) {
+                        Log.i("iter", iter.getDireccion());
                         listEstilistas.add(iter);
                     }
 

@@ -18,6 +18,7 @@
         android:weightSum="1">
 
         <Button
+            android:id="@+id/buttoncompra"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
@@ -30,6 +31,7 @@
             android:textStyle="bold" />
 
         <Button
+            android:id="@+id/buttonadoptar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"

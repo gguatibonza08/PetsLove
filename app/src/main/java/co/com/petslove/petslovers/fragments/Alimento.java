@@ -60,7 +60,7 @@ public class Alimento extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_alimento, container, false);
         alimentos = view.findViewById(R.id.listAlimentos);
-        consultarAlimento();
+        ConsultaEstablecimientos();
         return view;
     }
 
@@ -107,7 +107,7 @@ public class Alimento extends Fragment {
      * 7/11/2018
      */
     public void ConsultaEstablecimientos() {
-
+        listAlimentos = new ArrayList<>();
         OkHttpClient client = new OkHttpClient();
         RequestBody formBody = new FormBody.Builder().add("tipo", EstablecimientosEnum.ALIMENTO.getNombre()).build();
 

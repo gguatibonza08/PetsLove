@@ -124,7 +124,7 @@ public class RedSocial extends Fragment {
     public void consultarPublicaciones() {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
-                .url("http://" + getString(R.string.ip) + ":8080/consultarPublicaciones")
+                .url("http://"+getString( R.string.ip )+":8080/consultarPublicaciones")
                 .build();
 
         client.newCall(request).enqueue(new Callback() {

@@ -6,6 +6,18 @@
     android:orientation="vertical"
     tools:context=".fragments.Paseador">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginVertical="5dp"
+        android:fontFamily="@font/aclonica"
+        android:text="Listado de Paseadores"
+        android:textAlignment="center"
+        android:textColor="@color/dark"
+        android:textSize="20sp" />
+
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/listaPaseadores"
         android:layout_width="match_parent"

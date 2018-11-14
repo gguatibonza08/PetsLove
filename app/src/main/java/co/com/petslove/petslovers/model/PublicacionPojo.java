@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.List;
 
-public class PublicacionPojo implements Serializable,Parcelable {
+public class PublicacionPojo implements Serializable, Parcelable {
     @SerializedName("publicacionId")
     @Expose
     private BigInteger publicacionId;

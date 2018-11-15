@@ -107,7 +107,7 @@ public class Paseador extends Fragment {
      * 7/11/2018
      */
     public void ConsultaEstablecimientos() {
-
+        listPaseadores = new ArrayList<>();
         OkHttpClient client = new OkHttpClient();
         RequestBody formBody = new FormBody.Builder().add("tipo", EstablecimientosEnum.PASEADOR.getNombre()).build();
 

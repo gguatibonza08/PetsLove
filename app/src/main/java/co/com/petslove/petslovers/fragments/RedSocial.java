@@ -1,6 +1,8 @@
 package co.com.petslove.petslovers.fragments;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -10,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -19,6 +20,8 @@ import java.util.ArrayList;
 
 import co.com.petslove.petslovers.R;
 import co.com.petslove.petslovers.adapters.publicacionAdapter;
+import co.com.petslove.petslovers.addPublicacion;
+import co.com.petslove.petslovers.interfaces.enviarDatos;
 import co.com.petslove.petslovers.model.PublicacionPojo;
 import co.com.petslove.petslovers.model.respuestaPublicacion;
 import okhttp3.Call;
@@ -31,9 +34,11 @@ import okhttp3.Response;
 public class RedSocial extends Fragment {
 
     private RecyclerView redSocial;
+    Activity activity;
     private OnFragmentInteractionListener mListener;
     private ArrayList<PublicacionPojo> publicaciones;
-    private FloatingActionButton addPublicacion;
+    private FloatingActionButton addPublicaciones;
+    private enviarDatos envio;
 
     public RedSocial() {
 
@@ -58,11 +63,11 @@ public class RedSocial extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_red_social, container, false);
         redSocial = view.findViewById(R.id.listaPublicacions);
-        addPublicacion = view.findViewById(R.id.floatingActionButton);
-        addPublicacion.setOnClickListener(new View.OnClickListener() {
+        addPublicaciones = view.findViewById(R.id.floatingActionButton);
+        addPublicaciones.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "me falta agregar la otra activity para esto", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getContext(), addPublicacion.class));
             }
         });
         consultarPublicaciones();
@@ -86,6 +91,12 @@ public class RedSocial extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+
+        if (context instanceof Activity) {
+            this.activity = (Activity) context;
+            envio = (enviarDatos) this.activity;
+        }
+
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
@@ -148,6 +159,12 @@ public class RedSocial extends Fragment {
                             publicacionAdapter publicacionAdapter = new publicacionAdapter(getContext(), publicaciones);
                             redSocial.setLayoutManager(new LinearLayoutManager(getContext()));
                             redSocial.setAdapter(publicacionAdapter);
+                            publicacionAdapter.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    envio.EnviarPublicacion(publicaciones.get(redSocial.getChildAdapterPosition(v)));
+                                }
+                            });
                         }
                     });
                 }

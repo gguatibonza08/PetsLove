@@ -24,12 +24,14 @@ import co.com.petslove.petslovers.fragments.RedSocial;
 import co.com.petslove.petslovers.fragments.Veterinaria;
 import co.com.petslove.petslovers.fragments.home;
 import co.com.petslove.petslovers.fragments.profile;
+import co.com.petslove.petslovers.fragments.publicacionDetail;
 import co.com.petslove.petslovers.fragments.search;
 import co.com.petslove.petslovers.interfaces.enviarDatos;
+import co.com.petslove.petslovers.model.PublicacionPojo;
 import co.com.petslove.petslovers.model.TransaccionPojo;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, enviarDatos, AnimalDetail.OnFragmentInteractionListener, home.OnFragmentInteractionListener, profile.OnFragmentInteractionListener, search.OnFragmentInteractionListener, RedSocial.OnFragmentInteractionListener, Paseador.OnFragmentInteractionListener, Veterinaria.OnFragmentInteractionListener, Alimento.OnFragmentInteractionListener, Estilista.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, enviarDatos, AnimalDetail.OnFragmentInteractionListener, home.OnFragmentInteractionListener, profile.OnFragmentInteractionListener, search.OnFragmentInteractionListener, RedSocial.OnFragmentInteractionListener, Paseador.OnFragmentInteractionListener, Veterinaria.OnFragmentInteractionListener, Alimento.OnFragmentInteractionListener, Estilista.OnFragmentInteractionListener, co.com.petslove.petslovers.fragments.publicacionDetail.OnFragmentInteractionListener {
 
     private RedSocial redSocial;
     private CardView filtro;
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity
     private Estilista estilista;
     private Paseador paseador;
     private Veterinaria veterinaria;
+    private publicacionDetail publicacionDetail;
 
 
     @Override
@@ -160,10 +163,22 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void EnviarDetalle(TransaccionPojo datos) {
+        filtro.setVisibility(View.GONE);
         animalDetail = new AnimalDetail();
         Bundle detalleEnvio = new Bundle();
         detalleEnvio.putSerializable("detalle", datos);
         animalDetail.setArguments(detalleEnvio);
         getSupportFragmentManager().beginTransaction().replace(R.id.mainFrame, animalDetail).addToBackStack(null).commit();
+    }
+
+    @Override
+    public void EnviarPublicacion(PublicacionPojo publicacion) {
+        filtro.setVisibility(View.GONE);
+        publicacionDetail = new publicacionDetail();
+        Bundle detalleEnvio = new Bundle();
+        detalleEnvio.putSerializable("detalle", publicacion);
+        publicacionDetail.setArguments(detalleEnvio);
+        getSupportFragmentManager().beginTransaction().replace(R.id.mainFrame, publicacionDetail).addToBackStack(null).commit();
+
     }
 }

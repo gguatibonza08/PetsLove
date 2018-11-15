@@ -5,7 +5,9 @@ import android.os.Parcelable;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.List;
 
+import co.com.petslove.petslovers.model.TransaccionPojo;
 import co.com.petslove.petslovers.model.Usuario;
 
 public class RespuestaRest implements Serializable, Parcelable {
@@ -13,7 +15,8 @@ public class RespuestaRest implements Serializable, Parcelable {
     private String mensaje;
     private BigInteger idRest;
     private boolean confirmacion;
-    private Usuario objectRest;
+    private Object objectRest;
+    private List<TransaccionPojo> transaccion;
 
 
     public RespuestaRest(int codigoRespuesta, String mensaje) {
@@ -91,12 +94,20 @@ public class RespuestaRest implements Serializable, Parcelable {
         this.confirmacion = confirmacion;
     }
 
-    public Usuario getUser() {
+    public Object getObjectRest() {
         return objectRest;
     }
 
-    public void setUser(Usuario user) {
-        this.objectRest = user;
+    public void setObjectRest(Object objectRest) {
+        this.objectRest = objectRest;
+    }
+
+    public List<TransaccionPojo> getTransaccion() {
+        return transaccion;
+    }
+
+    public void setTransaccion(List<TransaccionPojo> transaccion) {
+        this.transaccion = transaccion;
     }
 
     @Override

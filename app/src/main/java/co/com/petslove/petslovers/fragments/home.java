@@ -12,19 +12,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.google.gson.Gson;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 import co.com.petslove.petslovers.R;
 import co.com.petslove.petslovers.adapters.animalAdapter;
 import co.com.petslove.petslovers.interfaces.enviarDatos;
 import co.com.petslove.petslovers.model.TransaccionPojo;
+import co.com.petslove.petslovers.model.rtaWS.RespuestaRest;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class home extends Fragment implements View.OnClickListener {
     private OnFragmentInteractionListener mListener;
     private RecyclerView animales;
     private Button compra, adoptar;
     Activity activity;
-    private ArrayList<TransaccionPojo> ListAnimales;
+    private ArrayList<TransaccionPojo> listAnimales;
     private enviarDatos envio;
 
     public home() {
@@ -59,14 +68,14 @@ public class home extends Fragment implements View.OnClickListener {
     }
 
     private void refererenciar() {
-        ListAnimales = new ArrayList<>();
-        animalAdapter adapter = new animalAdapter(getContext(), ListAnimales);
+        listAnimales = new ArrayList<>();
+        animalAdapter adapter = new animalAdapter(getContext(), listAnimales);
         animales.setLayoutManager(new LinearLayoutManager(getContext()));
         animales.setAdapter(adapter);
         adapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                envio.EnviarDetalle(ListAnimales.get(animales.getChildAdapterPosition(v)));
+                envio.EnviarDetalle(listAnimales.get(animales.getChildAdapterPosition(v)));
             }
         });
 
@@ -115,8 +124,8 @@ public class home extends Fragment implements View.OnClickListener {
     private void traerPublicacion(String comprar) {
         //acá agregar la conexión al webservice
 
-        ListAnimales = new ArrayList<>();
-        animalAdapter adapter = new animalAdapter(getContext(), ListAnimales);
+        listAnimales = new ArrayList<>();
+        animalAdapter adapter = new animalAdapter(getContext(), listAnimales);
         animales.setLayoutManager(new LinearLayoutManager(getContext()));
         animales.setAdapter(adapter);
 
@@ -126,5 +135,43 @@ public class home extends Fragment implements View.OnClickListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+    /**
+     * @Author Kevin Joel Olarte
+     * 12/11/2018
+     */
+    public void consultarPublicaciones() {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url("http://"+getString( R.string.ip )+":8080/consultaAdopciones")
+                .build();
 
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String rta = response.body().string();
+                    RespuestaRest respuesta = new Gson().fromJson(rta, RespuestaRest.class);
+                    listAnimales = new ArrayList<>();
+
+                    for (TransaccionPojo iter : respuesta.getTransaccion()) {
+
+                        listAnimales.add(iter);
+                    }
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            animalAdapter adapter = new animalAdapter(getContext(), listAnimales);
+                            animales.setLayoutManager(new LinearLayoutManager(getContext()));
+                            animales.setAdapter(adapter);
+                        }
+                    });
+                }
+            }
+        });
+    }
 }

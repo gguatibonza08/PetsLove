@@ -16,8 +16,24 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+
+import co.com.petslove.petslovers.model.PublicacionPojo;
+import co.com.petslove.petslovers.model.respuestaPublicacion;
+import co.com.petslove.petslovers.model.rtaWS.RespuestaRest;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class addPublicacion extends AppCompatActivity {
 
@@ -106,5 +122,40 @@ public class addPublicacion extends AppCompatActivity {
         }
 
     }
+    /**
+     * @Author Kevin Joel Olarte
+     */
+    public void consultarPublicaciones() {
+        OkHttpClient client = new OkHttpClient();
+        RequestBody formBody = new FormBody.Builder().add("descripcion",descripcionFoto ).add("foto",codeFoto)
+                .add("correoUsuario","getUsuario").build();
 
+        Request request = new Request.Builder()
+                .url("http://" + getString(R.string.ip) + ":8080/consultaAdopciones")
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String rta = response.body().string();
+                    Log.e("rta", rta);
+                    RespuestaRest respuesta = new Gson().fromJson(rta, RespuestaRest.class);
+                    Log.i("respuesta",respuesta.getMensaje());
+                    Log.i("status",Integer.toString(respuesta.getCodigoRespuesta()));
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                        }
+                    });
+                }
+            }
+        });
+    }
 }

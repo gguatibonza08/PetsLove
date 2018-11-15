@@ -142,6 +142,9 @@ public class home extends Fragment implements View.OnClickListener {
         void onFragmentInteraction(Uri uri);
     }
 
+    /**
+     * @Author Kevin Joel Olarte
+     */
     public void consultarPublicaciones() {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()

@@ -38,7 +38,9 @@ public class PublicacionPojo implements Serializable, Parcelable {
     @SerializedName("likes")
     @Expose
     private Integer likes;
-
+    @SerializedName("correoUsuario")
+    @Expose
+    private String correoUsuario;
     public PublicacionPojo() {
 
     }
@@ -140,6 +142,13 @@ public class PublicacionPojo implements Serializable, Parcelable {
         this.likes = likes;
     }
 
+    public String getCorreoUsuario() {
+        return correoUsuario;
+    }
+
+    public void setCorreoUsuario(String correoUsuario) {
+        this.correoUsuario = correoUsuario;
+    }
 
     @Override
     public int describeContents() {

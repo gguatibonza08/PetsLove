@@ -62,9 +62,10 @@ public class TransaccionPojo implements Serializable, Parcelable {
     private String foto;
     @SerializedName("fotografias")
     @Expose
-    private List<String> fotografias = new ArrayList<>();
+    private List<String> fotografias;
 
     public TransaccionPojo() {
+        this.fotografias = new ArrayList<>();
     }
 
     protected TransaccionPojo(Parcel in) {

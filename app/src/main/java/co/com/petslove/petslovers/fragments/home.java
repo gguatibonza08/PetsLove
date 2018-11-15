@@ -2,7 +2,6 @@ package co.com.petslove.petslovers.fragments;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -38,6 +37,8 @@ public class home extends Fragment implements View.OnClickListener {
     Activity activity;
     private ArrayList<TransaccionPojo> listAnimales;
     private enviarDatos envio;
+    private animalAdapter adapter;
+    private String complemento = "consultaAdopciones";
 
     public home() {
         // Required empty public constructor
@@ -61,16 +62,14 @@ public class home extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         animales = view.findViewById(R.id.listaAnimales);
         compra = view.findViewById(R.id.buttoncompra);
         adoptar = view.findViewById(R.id.buttonadoptar);
-
-
-
+        compra.setOnClickListener(this);
+        adoptar.setOnClickListener(this);
         consultarPublicaciones();
-        //refererenciar();
+
         return view;
     }
 
@@ -115,27 +114,20 @@ public class home extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttoncompra:
+                complemento = "consultaVentas";
                 compra.setEnabled(false);
                 adoptar.setEnabled(true);
-                traerPublicacion("comprar");
+                consultarPublicaciones();
                 break;
             case R.id.buttonadoptar:
+                complemento = "consultaAdopciones";
                 compra.setEnabled(true);
                 adoptar.setEnabled(false);
-                traerPublicacion("adoptar");
+                consultarPublicaciones();
                 break;
         }
     }
 
-    private void traerPublicacion(String comprar) {
-        //acá agregar la conexión al webservice
-
-        listAnimales = new ArrayList<>();
-        animalAdapter adapter = new animalAdapter(getContext(), listAnimales);
-        animales.setLayoutManager(new LinearLayoutManager(getContext()));
-        animales.setAdapter(adapter);
-
-    }
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
@@ -145,7 +137,7 @@ public class home extends Fragment implements View.OnClickListener {
     public void consultarPublicaciones() {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
-                .url("http://" + getString(R.string.ip) + ":8080/consultaAdopciones")
+                .url("http://" + getString(R.string.ip) + ":8080/" + complemento)
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
@@ -165,7 +157,7 @@ public class home extends Fragment implements View.OnClickListener {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            animalAdapter adapter = new animalAdapter(getContext(), listAnimales);
+                            adapter = new animalAdapter(getContext(), listAnimales);
                             animales.setLayoutManager(new LinearLayoutManager(getContext()));
                             animales.setAdapter(adapter);
                             adapter.setOnClickListener(new View.OnClickListener() {

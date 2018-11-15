@@ -15,14 +15,20 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
+import android.widget.EditText;
+import android.widget.ImageView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 
 public class addPublicacion extends AppCompatActivity {
 
     private final String CARPETA_RAIZ = "misImagenesPrueba/";
     private final String RUTA_IMAGEN = CARPETA_RAIZ + "misFotos";
+    private String codeFoto;
+    private ImageView foto;
+    private EditText contenido;
     String path;
 
     final int COD_SELECCIONA = 10;
@@ -33,6 +39,8 @@ public class addPublicacion extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_publicacion);
+        foto = findViewById(R.id.fotoPublicacionAdd);
+        contenido = findViewById(R.id.descripcionPublicacion);
         cargarImagen();
     }
 
@@ -64,10 +72,33 @@ public class addPublicacion extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-
             switch (requestCode) {
                 case COD_SELECCIONA:
-                    Uri miPath = data.getData();
+                    try {
+                        Uri imageUri = data.getData();
+                        Bitmap bm = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                        byte[] b = baos.toByteArray();
+                        codeFoto = Base64.encodeToString(b, Base64.DEFAULT);
+                        foto.setImageBitmap(decode64(codeFoto.getBytes()));
+
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
+
+                /*byte[] decodedBytes = Base64.decode(code.getBytes(), Base64.DEFAULT);
+                Bitmap bn = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+                bn.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                prueba.setImageBitmap(bn);*/
+
+
+
+
+
 
                     /*ByteArrayOutputStream baos = new ByteArrayOutputStream();
                     byte[] decodedBytes = Base64.decode(bytes, Base64.DEFAULT);
@@ -95,6 +126,21 @@ public class addPublicacion extends AppCompatActivity {
     }
 
 
+    private Bitmap decode64(byte[] bytes) {
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            byte[] decodedBytes = Base64.decode(bytes, Base64.DEFAULT);
+            Bitmap bn = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+            bn.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            return bn;
+        } catch (Exception e) {
+            Log.e("Error", "Campo foto vacio");
+            return null;
+        }
+
+    }
+
+
     private void tomarFotografia() {
         File fileImagen = new File(Environment.getExternalStorageDirectory(), RUTA_IMAGEN);
         boolean isCreada = fileImagen.exists();
@@ -107,15 +153,11 @@ public class addPublicacion extends AppCompatActivity {
             nombreImagen = (System.currentTimeMillis() / 1000) + ".jpg";
         }
 
-
         path = Environment.getExternalStorageDirectory() +
                 File.separator + RUTA_IMAGEN + File.separator + nombreImagen;
-
         File imagen = new File(path);
-
         Intent intent = null;
         intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             String authorities = getApplicationContext().getPackageName() + ".provider";
             Uri imageUri = FileProvider.getUriForFile(this, authorities, imagen);

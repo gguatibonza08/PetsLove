@@ -2,13 +2,11 @@ package co.com.petslove.petslovers.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,11 +14,10 @@ import java.util.List;
  * Created by kolarte on 3/03/18.
  */
 public class TransaccionPojo implements Serializable, Parcelable {
+
     @SerializedName("usuario")
     @Expose
-    private BigInteger usuario;
-
-    //datos nuevo para pojo
+    private Integer usuario;
     @SerializedName("nombreUsuario")
     @Expose
     private String nombreUsuario;
@@ -29,9 +26,7 @@ public class TransaccionPojo implements Serializable, Parcelable {
     private String fotoUsuario;
     @SerializedName("calificacionUsuario")
     @Expose
-    private int calificacionUsuario;
-
-    //hasta aquí
+    private Integer calificacionUsuario;
     @SerializedName("tipo")
     @Expose
     private String tipo;
@@ -58,7 +53,7 @@ public class TransaccionPojo implements Serializable, Parcelable {
     private String status;
     @SerializedName("activo")
     @Expose
-    private boolean activo;
+    private Boolean activo;
     @SerializedName("precio")
     @Expose
     private Integer precio;
@@ -67,31 +62,24 @@ public class TransaccionPojo implements Serializable, Parcelable {
     private String foto;
     @SerializedName("fotografias")
     @Expose
-    private List<String> fotografias;
-
-
-    public TransaccionPojo(String nombreUsuario, String fotoUsuario, int calificacionUsuario, String ciudad, String direccion, Integer precio, String foto, ArrayList<String> fotos) {
-        this.nombreUsuario = nombreUsuario;
-        this.fotoUsuario = fotoUsuario;
-        this.calificacionUsuario = calificacionUsuario;
-        this.ciudad = ciudad;
-        this.direccion = direccion;
-        this.precio = precio;
-        this.foto = foto;
-        this.raza = "prueba2";
-        this.descripcion = "aosfas osbfas ifsvaf asiufva";
-        this.fotografias = fotos;
-        Log.e("fotosize", this.fotografias.size() + "");
-    }
+    private List<String> fotografias = new ArrayList<>();
 
     public TransaccionPojo() {
-
     }
 
     protected TransaccionPojo(Parcel in) {
+        if (in.readByte() == 0) {
+            usuario = null;
+        } else {
+            usuario = in.readInt();
+        }
         nombreUsuario = in.readString();
         fotoUsuario = in.readString();
-        calificacionUsuario = in.readInt();
+        if (in.readByte() == 0) {
+            calificacionUsuario = null;
+        } else {
+            calificacionUsuario = in.readInt();
+        }
         tipo = in.readString();
         raza = in.readString();
         descripcion = in.readString();
@@ -100,7 +88,8 @@ public class TransaccionPojo implements Serializable, Parcelable {
         direccion = in.readString();
         ubicacion = in.readString();
         status = in.readString();
-        activo = in.readByte() != 0;
+        byte tmpActivo = in.readByte();
+        activo = tmpActivo == 0 ? null : tmpActivo == 1;
         if (in.readByte() == 0) {
             precio = null;
         } else {
@@ -122,12 +111,12 @@ public class TransaccionPojo implements Serializable, Parcelable {
         }
     };
 
-    public int getCalificacionUsuario() {
-        return calificacionUsuario;
+    public Integer getUsuario() {
+        return usuario;
     }
 
-    public void setCalificacionUsuario(int calificacionUsuario) {
-        this.calificacionUsuario = calificacionUsuario;
+    public void setUsuario(Integer usuario) {
+        this.usuario = usuario;
     }
 
     public String getNombreUsuario() {
@@ -146,12 +135,12 @@ public class TransaccionPojo implements Serializable, Parcelable {
         this.fotoUsuario = fotoUsuario;
     }
 
-    public BigInteger getUsuario() {
-        return usuario;
+    public Integer getCalificacionUsuario() {
+        return calificacionUsuario;
     }
 
-    public void setUsuario(BigInteger usuario) {
-        this.usuario = usuario;
+    public void setCalificacionUsuario(Integer calificacionUsuario) {
+        this.calificacionUsuario = calificacionUsuario;
     }
 
     public String getTipo() {
@@ -218,11 +207,11 @@ public class TransaccionPojo implements Serializable, Parcelable {
         this.status = status;
     }
 
-    public boolean isActivo() {
+    public Boolean getActivo() {
         return activo;
     }
 
-    public void setActivo(boolean activo) {
+    public void setActivo(Boolean activo) {
         this.activo = activo;
     }
 
@@ -257,9 +246,20 @@ public class TransaccionPojo implements Serializable, Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        if (usuario == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(usuario);
+        }
         dest.writeString(nombreUsuario);
         dest.writeString(fotoUsuario);
-        dest.writeInt(calificacionUsuario);
+        if (calificacionUsuario == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(calificacionUsuario);
+        }
         dest.writeString(tipo);
         dest.writeString(raza);
         dest.writeString(descripcion);
@@ -268,7 +268,7 @@ public class TransaccionPojo implements Serializable, Parcelable {
         dest.writeString(direccion);
         dest.writeString(ubicacion);
         dest.writeString(status);
-        dest.writeByte((byte) (activo ? 1 : 0));
+        dest.writeByte((byte) (activo == null ? 0 : activo ? 1 : 2));
         if (precio == null) {
             dest.writeByte((byte) 0);
         } else {

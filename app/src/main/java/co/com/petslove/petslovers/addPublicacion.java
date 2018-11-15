@@ -1,6 +1,8 @@
 package co.com.petslove.petslovers;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -23,6 +25,7 @@ public class addPublicacion extends AppCompatActivity {
     private ImageView foto;
     private EditText contenido;
     private Button publicar;
+    private String correo, descripcionFoto;
 
     final int COD_SELECCIONA = 10;
 
@@ -34,6 +37,8 @@ public class addPublicacion extends AppCompatActivity {
         contenido = findViewById(R.id.descripcionPublicacion);
         publicar = findViewById(R.id.publicar);
         cargarImagen2();
+        SharedPreferences preferences = getSharedPreferences("credenciales", Context.MODE_PRIVATE);
+        correo = preferences.getString("correo", "uno");
         publicar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -45,12 +50,9 @@ public class addPublicacion extends AppCompatActivity {
 
     private void publicar() {
         //conexion
-
-
-
-
-
-
+        descripcionFoto = contenido.getText().toString(); //se envia esto
+        //codefoto
+        //correo -> este es el correo del usuario logueado que por ende es el correo de quien publica
 
     }
 

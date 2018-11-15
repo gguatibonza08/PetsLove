@@ -2,26 +2,29 @@ package co.com.petslove.petslovers.fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import co.com.petslove.petslovers.R;
 import co.com.petslove.petslovers.adapters.animalAdapter;
 import co.com.petslove.petslovers.interfaces.enviarDatos;
 import co.com.petslove.petslovers.model.TransaccionPojo;
-import co.com.petslove.petslovers.model.rtaWS.RespuestaRest;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -63,6 +66,10 @@ public class home extends Fragment implements View.OnClickListener {
         animales = view.findViewById(R.id.listaAnimales);
         compra = view.findViewById(R.id.buttoncompra);
         adoptar = view.findViewById(R.id.buttonadoptar);
+
+
+
+        consultarPublicaciones();
         //refererenciar();
         return view;
     }
@@ -72,12 +79,7 @@ public class home extends Fragment implements View.OnClickListener {
         animalAdapter adapter = new animalAdapter(getContext(), listAnimales);
         animales.setLayoutManager(new LinearLayoutManager(getContext()));
         animales.setAdapter(adapter);
-        adapter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                envio.EnviarDetalle(listAnimales.get(animales.getChildAdapterPosition(v)));
-            }
-        });
+
 
     }
 
@@ -113,9 +115,13 @@ public class home extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttoncompra:
+                compra.setEnabled(false);
+                adoptar.setEnabled(true);
                 traerPublicacion("comprar");
                 break;
             case R.id.buttonadoptar:
+                compra.setEnabled(true);
+                adoptar.setEnabled(false);
                 traerPublicacion("adoptar");
                 break;
         }
@@ -135,14 +141,11 @@ public class home extends Fragment implements View.OnClickListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-    /**
-     * @Author Kevin Joel Olarte
-     * 12/11/2018
-     */
+
     public void consultarPublicaciones() {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
-                .url("http://"+getString( R.string.ip )+":8080/consultaAdopciones")
+                .url("http://" + getString(R.string.ip) + ":8080/consultaAdopciones")
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
@@ -155,19 +158,22 @@ public class home extends Fragment implements View.OnClickListener {
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String rta = response.body().string();
-                    RespuestaRest respuesta = new Gson().fromJson(rta, RespuestaRest.class);
-                    listAnimales = new ArrayList<>();
-
-                    for (TransaccionPojo iter : respuesta.getTransaccion()) {
-
-                        listAnimales.add(iter);
-                    }
+                    Log.e("rta", rta);
+                    Type listType = new TypeToken<ArrayList<TransaccionPojo>>() {
+                    }.getType();
+                    listAnimales = new Gson().fromJson(rta, listType);
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             animalAdapter adapter = new animalAdapter(getContext(), listAnimales);
                             animales.setLayoutManager(new LinearLayoutManager(getContext()));
                             animales.setAdapter(adapter);
+                            adapter.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    envio.EnviarDetalle(listAnimales.get(animales.getChildAdapterPosition(v)));
+                                }
+                            });
                         }
                     });
                 }

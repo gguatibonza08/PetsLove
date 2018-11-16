@@ -1,12 +1,12 @@
 package co.com.petslove.petslovers.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 import co.com.petslove.petslovers.R;
 import co.com.petslove.petslovers.adapters.veterinariaAdapter;
+import co.com.petslove.petslovers.interfaces.enviarDatos;
 import co.com.petslove.petslovers.model.EstablecimientoPojo;
 import co.com.petslove.petslovers.utilidades.EstablecimientosEnum;
 import okhttp3.Call;
@@ -36,11 +37,12 @@ public class Veterinaria extends Fragment {
     private RecyclerView veterinarias;
     private ArrayList<EstablecimientoPojo> listVeterinarias;
     private OnFragmentInteractionListener mListener;
+    private enviarDatos envio;
+    private Activity activity;
 
     public Veterinaria() {
         // Required empty public constructor
     }
-
 
     public static Veterinaria newInstance(String param1, String param2) {
         Veterinaria fragment = new Veterinaria();
@@ -59,22 +61,10 @@ public class Veterinaria extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_veterinaria, container, false);
         veterinarias = view.findViewById(R.id.listVeterinarias);
         ConsultaEstablecimientos();
         return view;
-    }
-
-    private void consultar() {
-
-        //conexión webservices
-        listVeterinarias = new ArrayList<>();
-        veterinariaAdapter adapter = new veterinariaAdapter(getContext(), listVeterinarias);
-        veterinarias.setLayoutManager(new LinearLayoutManager(getContext()));
-        veterinarias.setAdapter(adapter);
-
-
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -87,6 +77,10 @@ public class Veterinaria extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        if (context instanceof Activity) {
+            this.activity = (Activity) context;
+            envio = (enviarDatos) this.activity;
+        }
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
@@ -111,7 +105,6 @@ public class Veterinaria extends Fragment {
      * 7/11/2018
      */
     public void ConsultaEstablecimientos() {
-        Log.i("Veterinaria", "rta " + "nos fuimos");
         listVeterinarias = new ArrayList<>();
         OkHttpClient client = new OkHttpClient();
         RequestBody formBody = new FormBody.Builder().add("tipo", EstablecimientosEnum.VETERINARIA.getNombre()).build();
@@ -130,8 +123,6 @@ public class Veterinaria extends Fragment {
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String rta = response.body().string();
-                    Log.i("Veterinaria", "rta " + rta);
-                    Gson gson = new Gson();
                     Type listType = new
                             TypeToken<ArrayList<EstablecimientoPojo>>() {
                             }.getType();
@@ -139,7 +130,6 @@ public class Veterinaria extends Fragment {
 
 
                     for (EstablecimientoPojo iter : establecimientos) {
-                        Log.i("iter", iter.getDireccion());
                         listVeterinarias.add(iter);
                     }
 
@@ -149,6 +139,12 @@ public class Veterinaria extends Fragment {
                             veterinariaAdapter adapter = new veterinariaAdapter(getContext(), listVeterinarias);
                             veterinarias.setLayoutManager(new LinearLayoutManager(getContext()));
                             veterinarias.setAdapter(adapter);
+                            adapter.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    envio.EnviarEstablecimiento(listVeterinarias.get(veterinarias.getChildAdapterPosition(v)));
+                                }
+                            });
                         }
                     });
 

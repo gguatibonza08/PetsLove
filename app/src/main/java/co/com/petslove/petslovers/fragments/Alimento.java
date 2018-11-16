@@ -1,12 +1,12 @@
 package co.com.petslove.petslovers.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 import co.com.petslove.petslovers.R;
 import co.com.petslove.petslovers.adapters.alimentoAdapter;
+import co.com.petslove.petslovers.interfaces.enviarDatos;
 import co.com.petslove.petslovers.model.EstablecimientoPojo;
 import co.com.petslove.petslovers.utilidades.EstablecimientosEnum;
 import okhttp3.Call;
@@ -35,6 +36,8 @@ public class Alimento extends Fragment {
     private OnFragmentInteractionListener mListener;
     private ArrayList<EstablecimientoPojo> listAlimentos;
     private RecyclerView alimentos;
+    private enviarDatos envio;
+    private Activity activity;
 
     public Alimento() {
         // Required empty public constructor
@@ -64,14 +67,6 @@ public class Alimento extends Fragment {
         return view;
     }
 
-    private void consultarAlimento() {
-        listAlimentos = new ArrayList<>();
-        alimentoAdapter adapter = new alimentoAdapter(getContext(), listAlimentos);
-        alimentos.setLayoutManager(new LinearLayoutManager(getContext()));
-        alimentos.setAdapter(adapter);
-
-    }
-
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -82,6 +77,10 @@ public class Alimento extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        if (context instanceof Activity) {
+            this.activity = (Activity) context;
+            envio = (enviarDatos) this.activity;
+        }
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
@@ -125,8 +124,6 @@ public class Alimento extends Fragment {
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String rta = response.body().string();
-                    Log.i("exito_estilista", "rta " + rta);
-                    Gson gson = new Gson();
                     Type listType = new
                             TypeToken<ArrayList<EstablecimientoPojo>>() {
                             }.getType();
@@ -134,7 +131,6 @@ public class Alimento extends Fragment {
 
 
                     for (EstablecimientoPojo iter : establecimientos) {
-                        Log.i("iter", iter.getDireccion());
                         listAlimentos.add(iter);
                     }
 
@@ -144,6 +140,12 @@ public class Alimento extends Fragment {
                             alimentoAdapter adapter = new alimentoAdapter(getContext(), listAlimentos);
                             alimentos.setLayoutManager(new LinearLayoutManager(getContext()));
                             alimentos.setAdapter(adapter);
+                            adapter.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    envio.EnviarEstablecimiento(listAlimentos.get(alimentos.getChildAdapterPosition(v)));
+                                }
+                            });
                         }
                     });
 

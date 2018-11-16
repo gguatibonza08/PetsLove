@@ -1,5 +1,6 @@
 package co.com.petslove.petslovers.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 
 import co.com.petslove.petslovers.R;
 import co.com.petslove.petslovers.adapters.estilistaAdapter;
+import co.com.petslove.petslovers.interfaces.enviarDatos;
 import co.com.petslove.petslovers.model.EstablecimientoPojo;
 import co.com.petslove.petslovers.utilidades.EstablecimientosEnum;
 import okhttp3.Call;
@@ -35,6 +37,8 @@ public class Estilista extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private RecyclerView estilistas;
+    private enviarDatos envio;
+    private Activity activity;
     private ArrayList<EstablecimientoPojo> listEstilistas;
 
     public Estilista() {
@@ -83,6 +87,10 @@ public class Estilista extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        if (context instanceof Activity) {
+            this.activity = (Activity) context;
+            envio = (enviarDatos) this.activity;
+        }
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
@@ -144,6 +152,12 @@ public class Estilista extends Fragment {
                             estilistaAdapter adapter = new estilistaAdapter(getContext(), listEstilistas);
                             estilistas.setLayoutManager(new LinearLayoutManager(getContext()));
                             estilistas.setAdapter(adapter);
+                            adapter.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    envio.EnviarEstablecimiento(listEstilistas.get(estilistas.getChildAdapterPosition(v)));
+                                }
+                            });
                         }
                     });
 

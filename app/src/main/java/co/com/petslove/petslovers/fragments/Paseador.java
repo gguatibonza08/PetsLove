@@ -1,5 +1,6 @@
 package co.com.petslove.petslovers.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 
 import co.com.petslove.petslovers.R;
 import co.com.petslove.petslovers.adapters.paseadorAdapter;
+import co.com.petslove.petslovers.interfaces.enviarDatos;
 import co.com.petslove.petslovers.model.EstablecimientoPojo;
 import co.com.petslove.petslovers.utilidades.EstablecimientosEnum;
 import okhttp3.Call;
@@ -34,6 +36,8 @@ import okhttp3.Response;
 public class Paseador extends Fragment {
 
     private RecyclerView paseadores;
+    private enviarDatos envio;
+    private Activity activity;
     private ArrayList<EstablecimientoPojo> listPaseadores = new ArrayList<>();
     private OnFragmentInteractionListener mListener;
 
@@ -82,6 +86,10 @@ public class Paseador extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        if (context instanceof Activity) {
+            this.activity = (Activity) context;
+            envio = (enviarDatos) this.activity;
+        }
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
@@ -143,6 +151,12 @@ public class Paseador extends Fragment {
                             paseadorAdapter adapter = new paseadorAdapter(getContext(), listPaseadores);
                             paseadores.setLayoutManager(new GridLayoutManager(getContext(), 2));
                             paseadores.setAdapter(adapter);
+                            adapter.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    envio.EnviarEstablecimiento(listPaseadores.get(paseadores.getChildAdapterPosition(v)));
+                                }
+                            });
                         }
                     });
 

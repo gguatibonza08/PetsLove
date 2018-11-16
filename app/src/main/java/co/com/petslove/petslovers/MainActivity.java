@@ -22,16 +22,18 @@ import co.com.petslove.petslovers.fragments.Estilista;
 import co.com.petslove.petslovers.fragments.Paseador;
 import co.com.petslove.petslovers.fragments.RedSocial;
 import co.com.petslove.petslovers.fragments.Veterinaria;
+import co.com.petslove.petslovers.fragments.detailServicio;
 import co.com.petslove.petslovers.fragments.home;
 import co.com.petslove.petslovers.fragments.profile;
 import co.com.petslove.petslovers.fragments.publicacionDetail;
 import co.com.petslove.petslovers.fragments.search;
 import co.com.petslove.petslovers.interfaces.enviarDatos;
+import co.com.petslove.petslovers.model.EstablecimientoPojo;
 import co.com.petslove.petslovers.model.PublicacionPojo;
 import co.com.petslove.petslovers.model.TransaccionPojo;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, enviarDatos, AnimalDetail.OnFragmentInteractionListener, home.OnFragmentInteractionListener, profile.OnFragmentInteractionListener, search.OnFragmentInteractionListener, RedSocial.OnFragmentInteractionListener, Paseador.OnFragmentInteractionListener, Veterinaria.OnFragmentInteractionListener, Alimento.OnFragmentInteractionListener, Estilista.OnFragmentInteractionListener, co.com.petslove.petslovers.fragments.publicacionDetail.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, enviarDatos, AnimalDetail.OnFragmentInteractionListener, home.OnFragmentInteractionListener, profile.OnFragmentInteractionListener, search.OnFragmentInteractionListener, RedSocial.OnFragmentInteractionListener, Paseador.OnFragmentInteractionListener, Veterinaria.OnFragmentInteractionListener, Alimento.OnFragmentInteractionListener, Estilista.OnFragmentInteractionListener, co.com.petslove.petslovers.fragments.publicacionDetail.OnFragmentInteractionListener, detailServicio.OnFragmentInteractionListener {
 
     private RedSocial redSocial;
     private CardView filtro;
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity
     private home home;
     private search search;
     private AnimalDetail animalDetail;
+    private detailServicio detailServicio;
     private profile profile;
     private Alimento alimento;
     private Estilista estilista;
@@ -180,5 +183,15 @@ public class MainActivity extends AppCompatActivity
         publicacionDetail.setArguments(detalleEnvio);
         getSupportFragmentManager().beginTransaction().replace(R.id.mainFrame, publicacionDetail).addToBackStack(null).commit();
 
+    }
+
+    @Override
+    public void EnviarEstablecimiento(EstablecimientoPojo establecimiento) {
+        filtro.setVisibility(View.GONE);
+        detailServicio = new detailServicio();
+        Bundle detalleEnvio = new Bundle();
+        detalleEnvio.putSerializable("detalle", establecimiento);
+        detailServicio.setArguments(detalleEnvio);
+        getSupportFragmentManager().beginTransaction().replace(R.id.mainFrame, detailServicio).addToBackStack(null).commit();
     }
 }

@@ -122,9 +122,10 @@ public class addPublicacion extends AppCompatActivity {
      * @Author Kevin Joel Olarte
      */
     public void consultarPublicaciones() {
+        descripcionFoto = contenido.getText().toString();
         OkHttpClient client = new OkHttpClient();
         RequestBody formBody = new FormBody.Builder().add("descripcion", descripcionFoto).add("foto", codeFoto)
-                .add("correoUsuario", "getUsuario").build();
+                .add("correoUsuario", correo).build();
 
         Request request = new Request.Builder()
                 .url("http://" + getString(R.string.ip) + ":8080/consultaAdopciones")

@@ -70,13 +70,6 @@ public class Estilista extends Fragment {
         return view;
     }
 
-    private void consultarEstilistas() {
-        listEstilistas = new ArrayList<>();
-        estilistaAdapter adapter = new estilistaAdapter(getContext(), listEstilistas);
-        estilistas.setLayoutManager(new LinearLayoutManager(getContext()));
-        estilistas.setAdapter(adapter);
-    }
-
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {

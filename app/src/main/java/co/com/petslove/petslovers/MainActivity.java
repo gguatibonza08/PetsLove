@@ -31,11 +31,13 @@ import co.com.petslove.petslovers.interfaces.enviarDatos;
 import co.com.petslove.petslovers.model.EstablecimientoPojo;
 import co.com.petslove.petslovers.model.PublicacionPojo;
 import co.com.petslove.petslovers.model.TransaccionPojo;
+import co.com.petslove.petslovers.utilidades.EstablecimientosEnum;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, enviarDatos, AnimalDetail.OnFragmentInteractionListener, home.OnFragmentInteractionListener, profile.OnFragmentInteractionListener, search.OnFragmentInteractionListener, RedSocial.OnFragmentInteractionListener, Paseador.OnFragmentInteractionListener, Veterinaria.OnFragmentInteractionListener, Alimento.OnFragmentInteractionListener, Estilista.OnFragmentInteractionListener, co.com.petslove.petslovers.fragments.publicacionDetail.OnFragmentInteractionListener, detailServicio.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, enviarDatos, AnimalDetail.OnFragmentInteractionListener, home.OnFragmentInteractionListener, profile.OnFragmentInteractionListener, search.OnFragmentInteractionListener, RedSocial.OnFragmentInteractionListener, Paseador.OnFragmentInteractionListener, Veterinaria.OnFragmentInteractionListener, Alimento.OnFragmentInteractionListener, Estilista.OnFragmentInteractionListener, co.com.petslove.petslovers.fragments.publicacionDetail.OnFragmentInteractionListener, detailServicio.OnFragmentInteractionListener, busquedaTipo.OnFragmentInteractionListener, View.OnClickListener {
 
     private RedSocial redSocial;
+    private busquedaTipo busquedaTipo;
     private CardView filtro;
     private Button perro, gato, vaca, cerdo, pez, ave, caballo, oveja;
     private BottomNavigationView menuInferior;
@@ -118,6 +120,16 @@ public class MainActivity extends AppCompatActivity
         veterinaria = new Veterinaria();
         estilista = new Estilista();
         paseador = new Paseador();
+
+        perro.setOnClickListener(this);
+        gato.setOnClickListener(this);
+        vaca.setOnClickListener(this);
+        cerdo.setOnClickListener(this);
+        pez.setOnClickListener(this);
+        ave.setOnClickListener(this);
+        caballo.setOnClickListener(this);
+        oveja.setOnClickListener(this);
+
     }
 
     @Override
@@ -193,5 +205,55 @@ public class MainActivity extends AppCompatActivity
         detalleEnvio.putSerializable("detalle", establecimiento);
         detailServicio.setArguments(detalleEnvio);
         getSupportFragmentManager().beginTransaction().replace(R.id.mainFrame, detailServicio).addToBackStack(null).commit();
+    }
+
+    @Override
+    public void onClick(View v) {
+        String tipo = "";
+        switch (v.getId()) {
+            case R.id.btnPerro:
+                tipo = EstablecimientosEnum.PERRO.getNombre();
+                enviarTipoBusqueda(tipo);
+                break;
+            case R.id.btnGato:
+                tipo = EstablecimientosEnum.GATO.getNombre();
+                enviarTipoBusqueda(tipo);
+                break;
+            case R.id.btnVaca:
+                tipo = EstablecimientosEnum.VACA.getNombre();
+                enviarTipoBusqueda(tipo);
+                break;
+            case R.id.btnCerdo:
+                tipo = EstablecimientosEnum.CERDO.getNombre();
+                enviarTipoBusqueda(tipo);
+                break;
+            case R.id.btnCaballo:
+                tipo = EstablecimientosEnum.CABALLO.getNombre();
+                enviarTipoBusqueda(tipo);
+                break;
+            case R.id.btnPez:
+                tipo = EstablecimientosEnum.PEZ.getNombre();
+                enviarTipoBusqueda(tipo);
+                break;
+            case R.id.btnAve:
+                tipo = EstablecimientosEnum.AVE.getNombre();
+                enviarTipoBusqueda(tipo);
+                break;
+            case R.id.btnOveja:
+                tipo = EstablecimientosEnum.OVEJA.getNombre();
+                enviarTipoBusqueda(tipo);
+                break;
+        }
+    }
+
+    private void enviarTipoBusqueda(String tipo) {
+
+        filtro.setVisibility(View.GONE);
+        busquedaTipo = new busquedaTipo();
+        Bundle detalleEnvio = new Bundle();
+        detalleEnvio.putSerializable("detalle", tipo);
+        busquedaTipo.setArguments(detalleEnvio);
+        getSupportFragmentManager().beginTransaction().replace(R.id.mainFrame, busquedaTipo).addToBackStack(null).commit();
+
     }
 }

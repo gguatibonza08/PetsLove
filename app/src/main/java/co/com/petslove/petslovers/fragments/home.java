@@ -33,11 +33,12 @@ import okhttp3.Response;
 public class home extends Fragment implements View.OnClickListener {
     private OnFragmentInteractionListener mListener;
     private RecyclerView animales;
+    private animalAdapter adapter;
+    private ArrayList<TransaccionPojo> listAnimales;
     private Button compra, adoptar;
     Activity activity;
-    private ArrayList<TransaccionPojo> listAnimales;
+
     private enviarDatos envio;
-    private animalAdapter adapter;
     private String complemento = "consultaAdopciones";
 
     public home() {

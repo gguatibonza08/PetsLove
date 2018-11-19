@@ -1,78 +1,26 @@
 package co.com.petslove.petslovers.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
-import java.io.Serializable;
 import java.math.BigInteger;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
-
-public class AnimalPojo implements Serializable, Parcelable {
-    @SerializedName("idAnimal")
-    @Expose
+public class AnimalPojo {
     private BigInteger idAnimal;
-    @SerializedName("ciudad")
-    @Expose
+
     private String ciudad;
-    @SerializedName("departamento")
-    @Expose
     private String departamento;
-    @SerializedName("descripcion")
-    @Expose
     private String descripcion;
-    @SerializedName("direccion")
-    @Expose
     private String direccion;
-    @SerializedName("foto")
-    @Expose
     private String foto;
-    @SerializedName("status")
-    @Expose
     private String status;
-    @SerializedName("fotografias ")
-    @Expose
-    private Set<FotografiaPojo> fotografias;
-    @SerializedName("raza")
-    @Expose
+    private List<String> fotografias = new ArrayList<>();
     private String raza;
-    @SerializedName("tipo")
-    @Expose
     private String tipo;
-    @SerializedName("ubicacion")
-    @Expose
     private String ubicacion;
 
     public AnimalPojo() {
         super();
     }
-
-    protected AnimalPojo(Parcel in) {
-        ciudad = in.readString();
-        departamento = in.readString();
-        descripcion = in.readString();
-        direccion = in.readString();
-        foto = in.readString();
-        status = in.readString();
-        raza = in.readString();
-        tipo = in.readString();
-        ubicacion = in.readString();
-    }
-
-    public static final Creator<AnimalPojo> CREATOR = new Creator<AnimalPojo>() {
-        @Override
-        public AnimalPojo createFromParcel(Parcel in) {
-            return new AnimalPojo(in);
-        }
-
-        @Override
-        public AnimalPojo[] newArray(int size) {
-            return new AnimalPojo[size];
-        }
-    };
 
     public BigInteger getIdAnimal() {
         return idAnimal;
@@ -130,11 +78,11 @@ public class AnimalPojo implements Serializable, Parcelable {
         this.status = status;
     }
 
-    public Set<FotografiaPojo> getFotografias() {
+    public List<String> getFotografias() {
         return fotografias;
     }
 
-    public void setFotografias(Set<FotografiaPojo> fotografias) {
+    public void setFotografias(List<String> fotografias) {
         this.fotografias = fotografias;
     }
 
@@ -162,22 +110,4 @@ public class AnimalPojo implements Serializable, Parcelable {
         this.ubicacion = ubicacion;
     }
 
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(ciudad);
-        dest.writeString(departamento);
-        dest.writeString(descripcion);
-        dest.writeString(direccion);
-        dest.writeString(foto);
-        dest.writeString(status);
-        dest.writeString(raza);
-        dest.writeString(tipo);
-        dest.writeString(ubicacion);
-    }
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,8 +9,10 @@
 
 
     <LinearLayout
+        android:id="@+id/barra"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="5dp"
         android:gravity="center"
@@ -51,6 +54,7 @@
         android:id="@+id/listaAnimales"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/barra"
         android:paddingHorizontal="20dp"
         android:paddingBottom="20dp"
         tools:listitem="@layout/item_animal">
@@ -59,4 +63,19 @@
     </android.support.v7.widget.RecyclerView>
 
 
-</LinearLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingActionButton2"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="30dp"
+        android:clickable="true"
+        android:visibility="visible"
+        app:backgroundTint="@color/colorAccent"
+        app:elevation="24dp"
+        app:srcCompat="@drawable/icongreen" />
+
+
+</RelativeLayout>

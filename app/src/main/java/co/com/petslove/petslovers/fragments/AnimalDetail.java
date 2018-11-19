@@ -1,12 +1,15 @@
 package co.com.petslove.petslovers.fragments;
 
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
+import android.telephony.PhoneNumberUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,7 +23,6 @@ import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 import co.com.petslove.petslovers.R;
-import co.com.petslove.petslovers.interfaces.enviarDatos;
 import co.com.petslove.petslovers.model.TransaccionPojo;
 
 
@@ -64,22 +66,36 @@ public class AnimalDetail extends Fragment {
         nombreUsuario = view.findViewById(R.id.tv_nombreUsuario);
         descripcion = view.findViewById(R.id.tv_descripcionMascota);
 
+
         raza = view.findViewById(R.id.razaAnimal);
         precio = view.findViewById(R.id.precioDet);
         ciudad = view.findViewById(R.id.ciudadDetalle);
         calificicacion = view.findViewById(R.id.calificacionUsuario);
         try {
-            TransaccionPojo trans = (TransaccionPojo) objetoDetalles.getSerializable("detalle");
+            final TransaccionPojo trans = (TransaccionPojo) objetoDetalles.getSerializable("detalle");
             fotos = trans.getFotografias();
             fotoMascota.setImageBitmap(decode64(trans.getFoto().getBytes()));
             fotoUsuario.setImageBitmap(decode64(trans.getFotoUsuario().getBytes()));
             nombreUsuario.setText(trans.getNombreUsuario());
             descripcion.setText(trans.getDescripcion());
             raza.setText(trans.getRaza());
-            precio.setText(trans.getPrecio().toString());
+            if (trans.getPrecio() != null) {
+                precio.setText(trans.getPrecio().toString());
+            } else {
+                precio.setText("ADOPCIÓN");
+            }
             ciudad.setText(trans.getCiudad());
             calificicacion.setRating(trans.getCalificacionUsuario());
 
+            chatear.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent _intencion = new Intent("android.intent.action.MAIN");
+                    _intencion.setComponent(new ComponentName("com.whatsapp", "com.whatsapp.Conversation"));
+                    _intencion.putExtra("jid", PhoneNumberUtils.stripSeparators("57" + "3223734997") + "@s.whatsapp.net");
+                    startActivity(_intencion);
+                }
+            });
 
             next.setOnClickListener(new View.OnClickListener() {
                 @Override

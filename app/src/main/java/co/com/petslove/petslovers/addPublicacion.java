@@ -63,6 +63,7 @@ public class addPublicacion extends AppCompatActivity {
         //conexion
         descripcionFoto = contenido.getText().toString(); //se envia esto
         //codefoto
+        consultarPublicaciones();
         //correo -> este es el correo del usuario logueado que por ende es el correo de quien publica
 
     }
@@ -124,11 +125,20 @@ public class addPublicacion extends AppCompatActivity {
     public void consultarPublicaciones() {
         descripcionFoto = contenido.getText().toString();
         OkHttpClient client = new OkHttpClient();
-        RequestBody formBody = new FormBody.Builder().add("descripcion", descripcionFoto).add("foto", codeFoto)
-                .add("correoUsuario", correo).build();
+        RequestBody formBody = new FormBody.Builder()
+                .add("horaPublicacion", "")
+                .add("descripcion", descripcionFoto)
+                .add("usuario", "1")
+                .add("fotoUsuario", "1")
+                .add("nombreUsuario", "kevin")
+                .add("correoUsuario", correo)
+                .add("foto", "awfasga")
+                .add("likes", "0")
+                .build();
 
         Request request = new Request.Builder()
-                .url("http://" + getString(R.string.ip) + ":8080/consultaAdopciones")
+                .url("http://" + getString(R.string.ip) + ":8080/guardarPublicacion")
+                .post(formBody)
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
@@ -148,7 +158,7 @@ public class addPublicacion extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-
+                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         }
                     });
                 }

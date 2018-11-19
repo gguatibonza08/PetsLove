@@ -40,7 +40,8 @@
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".addPublicacion"></activity>
+        <activity android:name=".addPublicacion" />
+        <activity android:name=".AddVentaAdopcion"></activity>
     </application>
 
 </manifest>

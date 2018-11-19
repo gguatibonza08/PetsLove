@@ -42,7 +42,7 @@ public class animalAdapter extends RecyclerView.Adapter<animalAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull animalAdapter.ViewHolder holder, int position) {
 
-        try {
+       // try {
             holder.foto.setImageBitmap(decode64(animales.get(position).getFoto().getBytes()));
             holder.nombreUsuario.setText(animales.get(position).getNombreUsuario());
             holder.calificacion.setRating(animales.get(position).getCalificacionUsuario());
@@ -55,9 +55,9 @@ public class animalAdapter extends RecyclerView.Adapter<animalAdapter.ViewHolder
             }
             holder.fotoUsuario.setImageBitmap(decode64(animales.get(position).getFotoUsuario().getBytes()));
 
-        } catch (Exception e) {
+       /* } catch (Exception e) {
             Log.e("Error animal", "Senpeto en animal");
-        }
+        }*/
     }
 
     private Bitmap decode64(byte[] bytes) {

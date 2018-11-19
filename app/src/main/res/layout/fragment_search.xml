@@ -47,6 +47,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight=".6"
+                    android:entries="@array/animales"
                     android:textColor="@color/colorPrimary" />
 
             </LinearLayout>
@@ -75,6 +76,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight=".6"
+                    android:entries="@array/raza"
                     android:textColor="@color/colorPrimary" />
             </LinearLayout>
 
@@ -102,6 +104,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight=".6"
+                    android:entries="@array/depto"
                     android:textColor="@color/colorPrimary" />
 
             </LinearLayout>
@@ -130,6 +133,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight=".6"
+                    android:entries="@array/ciudad"
                     android:textColor="@color/colorPrimary" />
 
             </LinearLayout>

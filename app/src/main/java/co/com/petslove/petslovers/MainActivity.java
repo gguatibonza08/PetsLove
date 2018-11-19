@@ -1,5 +1,6 @@
 package co.com.petslove.petslovers;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,6 +22,7 @@ import co.com.petslove.petslovers.fragments.AnimalDetail;
 import co.com.petslove.petslovers.fragments.Estilista;
 import co.com.petslove.petslovers.fragments.Paseador;
 import co.com.petslove.petslovers.fragments.RedSocial;
+import co.com.petslove.petslovers.fragments.SearchResult;
 import co.com.petslove.petslovers.fragments.Veterinaria;
 import co.com.petslove.petslovers.fragments.detailServicio;
 import co.com.petslove.petslovers.fragments.home;
@@ -28,14 +30,16 @@ import co.com.petslove.petslovers.fragments.profile;
 import co.com.petslove.petslovers.fragments.publicacionDetail;
 import co.com.petslove.petslovers.fragments.search;
 import co.com.petslove.petslovers.interfaces.enviarDatos;
+import co.com.petslove.petslovers.model.Busqueda;
 import co.com.petslove.petslovers.model.EstablecimientoPojo;
 import co.com.petslove.petslovers.model.PublicacionPojo;
 import co.com.petslove.petslovers.model.TransaccionPojo;
 import co.com.petslove.petslovers.utilidades.EstablecimientosEnum;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, enviarDatos, AnimalDetail.OnFragmentInteractionListener, home.OnFragmentInteractionListener, profile.OnFragmentInteractionListener, search.OnFragmentInteractionListener, RedSocial.OnFragmentInteractionListener, Paseador.OnFragmentInteractionListener, Veterinaria.OnFragmentInteractionListener, Alimento.OnFragmentInteractionListener, Estilista.OnFragmentInteractionListener, co.com.petslove.petslovers.fragments.publicacionDetail.OnFragmentInteractionListener, detailServicio.OnFragmentInteractionListener, busquedaTipo.OnFragmentInteractionListener, View.OnClickListener {
+        implements NavigationView.OnNavigationItemSelectedListener, enviarDatos, AnimalDetail.OnFragmentInteractionListener, home.OnFragmentInteractionListener, profile.OnFragmentInteractionListener, search.OnFragmentInteractionListener, RedSocial.OnFragmentInteractionListener, Paseador.OnFragmentInteractionListener, Veterinaria.OnFragmentInteractionListener, Alimento.OnFragmentInteractionListener, Estilista.OnFragmentInteractionListener, co.com.petslove.petslovers.fragments.publicacionDetail.OnFragmentInteractionListener, detailServicio.OnFragmentInteractionListener, busquedaTipo.OnFragmentInteractionListener, SearchResult.OnFragmentInteractionListener, View.OnClickListener {
 
+    private SearchResult searchResult;
     private RedSocial redSocial;
     private busquedaTipo busquedaTipo;
     private CardView filtro;
@@ -208,6 +212,27 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    public void EnviarBusqueda(Busqueda busqueda) {
+        filtro.setVisibility(View.GONE);
+        searchResult = new SearchResult();
+        Bundle detalleEnvio = new Bundle();
+        detalleEnvio.putSerializable("detalle", busqueda);
+        searchResult.setArguments(detalleEnvio);
+        getSupportFragmentManager().beginTransaction().replace(R.id.mainFrame, searchResult).addToBackStack(null).commit();
+
+    }
+
+    @Override
+    public void addPublicacion() {
+        startActivity(new Intent(getApplicationContext(), AddVentaAdopcion.class));
+    }
+
+   /* @Override
+    public void addPublicacion() {
+      //  startActivity(new Intent(getApplicationContext(), AddVentaAdopcion.class));
+    }*/
+
+    @Override
     public void onClick(View v) {
         String tipo = "";
         switch (v.getId()) {
@@ -247,11 +272,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void enviarTipoBusqueda(String tipo) {
-
         filtro.setVisibility(View.GONE);
         busquedaTipo = new busquedaTipo();
         Bundle detalleEnvio = new Bundle();
-        detalleEnvio.putSerializable("detalle", tipo);
+        detalleEnvio.putString("detalle", tipo);
         busquedaTipo.setArguments(detalleEnvio);
         getSupportFragmentManager().beginTransaction().replace(R.id.mainFrame, busquedaTipo).addToBackStack(null).commit();
 

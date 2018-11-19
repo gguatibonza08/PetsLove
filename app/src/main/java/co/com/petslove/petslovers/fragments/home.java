@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -36,8 +37,8 @@ public class home extends Fragment implements View.OnClickListener {
     private animalAdapter adapter;
     private ArrayList<TransaccionPojo> listAnimales;
     private Button compra, adoptar;
+    private FloatingActionButton addPublicacion;
     Activity activity;
-
     private enviarDatos envio;
     private String complemento = "consultaAdopciones";
 
@@ -64,24 +65,23 @@ public class home extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        addPublicacion = view.findViewById(R.id.floatingActionButton2);
         animales = view.findViewById(R.id.listaAnimales);
         compra = view.findViewById(R.id.buttoncompra);
         adoptar = view.findViewById(R.id.buttonadoptar);
         compra.setOnClickListener(this);
         adoptar.setOnClickListener(this);
+        addPublicacion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                envio.addPublicacion();
+            }
+        });
         consultarPublicaciones();
 
         return view;
     }
 
-    private void refererenciar() {
-        listAnimales = new ArrayList<>();
-        animalAdapter adapter = new animalAdapter(getContext(), listAnimales);
-        animales.setLayoutManager(new LinearLayoutManager(getContext()));
-        animales.setAdapter(adapter);
-
-
-    }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

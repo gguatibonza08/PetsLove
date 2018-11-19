@@ -1,5 +1,6 @@
 package co.com.petslove.petslovers.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,24 +12,42 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 import co.com.petslove.petslovers.R;
+import co.com.petslove.petslovers.interfaces.enviarDatos;
+import co.com.petslove.petslovers.model.Busqueda;
+import co.com.petslove.petslovers.model.Lugar;
+import co.com.petslove.petslovers.model.Tipo;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
-public class search extends Fragment implements AdapterView.OnItemClickListener {
+public class search extends Fragment {
     private OnFragmentInteractionListener mListener;
     private Spinner tipo, raza, departamento, ciudad;
     private EditText precioMax, precioMin;
     private CheckBox adopcion;
     private CardView button;
+    private Busqueda busqueda;
+    private enviarDatos envio;
+    private Activity activity;
+    private ArrayList<Tipo> tipoDeMascota = new ArrayList<>();
+    private ArrayList<Lugar> lugarMascota = new ArrayList<>();
     private List<String> tipos, razas, departamentos, ciudades;
     private ArrayAdapter<String> tipoAdapter, razaAdapter, departamentoAdapter, ciudadAdapter;
-    private String tipoTx, razaTx, departamentoTx, ciudadTx, precioMinTx, precioMaxTx;
-
 
     public search() {
         // Required empty public constructor
@@ -54,6 +73,7 @@ public class search extends Fragment implements AdapterView.OnItemClickListener 
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_search, container, false);
+        busqueda = new Busqueda();
         tipo = view.findViewById(R.id.sStipo);
         raza = view.findViewById(R.id.sSraza);
         departamento = view.findViewById(R.id.sSdepartamento);
@@ -62,9 +82,7 @@ public class search extends Fragment implements AdapterView.OnItemClickListener 
         precioMin = view.findViewById(R.id.precioMin);
         adopcion = view.findViewById(R.id.checkAdopcion);
         button = view.findViewById(R.id.buscarButton);
-
         obtenerFiltros();
-
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,58 +90,65 @@ public class search extends Fragment implements AdapterView.OnItemClickListener 
             }
         });
 
+
+        adopcion.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    precioMax.setEnabled(false);
+                    busqueda.setAdopta(true);
+                    precioMin.setEnabled(false);
+                } else {
+                    precioMax.setEnabled(true);
+                    busqueda.setAdopta(false);
+                    precioMin.setEnabled(true);
+                }
+            }
+        });
+
         return view;
     }
 
     private void buscarMascota() {
-        if (adopcion.isActivated()) {
-            precioMinTx = "";
-            precioMaxTx = "";
-        } else {
-            precioMaxTx = precioMax.getText().toString();
-            precioMinTx = precioMin.getText().toString();
-        }
-        //aca en esta parte se llama el webs ervices y se envian los siguientes parametros:
-
-
-        /*
-           tipoTx,
-           razaTx,
-           departamentoTx,
-           ciudadTx,
-           precioMinTx,
-           precioMaxTx
-
-         */
-
-
+        busqueda.setPrecioMax(precioMax.getText().toString());
+        busqueda.setPrecioMin(precioMin.getText().toString());
+        envio.EnviarBusqueda(busqueda);
     }
 
     private void obtenerFiltros() {
-        //webServices para traer todos los filtros
+        Consulta();
+        busquedaUbicaciones();
+    }
 
-
-        //aqui se agregaría la repuestas de ese webs ervices
-        tipos = new ArrayList<>();
+    private void asignarCiudades(int position) {
         ciudades = new ArrayList<>();
-        departamentos = new ArrayList<>();
-        razas = new ArrayList<>();
-
-        tipoAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, tipos);
+        ciudades.add(0, "");
+        for (Lugar iter : lugarMascota) {
+            if (iter.getDepartamento().equals(departamentos.get(position))) {
+                if (!ciudades.contains(iter.getCiudad())) {
+                    ciudades.add(iter.getCiudad());
+                }
+            }
+        }
         ciudadAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, ciudades);
-        departamentoAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, departamentos);
-        razaAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, razas);
-
-        tipo.setAdapter(tipoAdapter);
-        raza.setAdapter(razaAdapter);
-        departamento.setAdapter(departamentoAdapter);
+        ciudadAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         ciudad.setAdapter(ciudadAdapter);
+    }
 
+    private void asignarRazas(int position) {
+        razas = new ArrayList<>();
+        razas.add(0, "");
+        for (Tipo iter : tipoDeMascota) {
+            if (iter.getNombreTipo().equals(tipos.get(position))) {
+                if (!razas.contains(iter.getRaza())) {
+                    razas.add(iter.getRaza());
+                }
+            }
+        }
+        razaAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, razas);
+        razaAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        raza.setAdapter(razaAdapter);
 
-        tipo.setOnItemClickListener(this);
-        raza.setOnItemClickListener(this);
-        departamento.setOnItemClickListener(this);
-        ciudad.setOnItemClickListener(this);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -137,6 +162,10 @@ public class search extends Fragment implements AdapterView.OnItemClickListener 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        if (context instanceof Activity) {
+            this.activity = (Activity) context;
+            envio = (enviarDatos) this.activity;
+        }
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
@@ -151,26 +180,150 @@ public class search extends Fragment implements AdapterView.OnItemClickListener 
         mListener = null;
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        switch (view.getId()) {
-            case R.id.sStipo:
-                tipoTx = tipos.get(position);
-                break;
-            case R.id.sSdepartamento:
-                departamentoTx = departamentos.get(position);
-                break;
-            case R.id.sSciudad:
-                ciudadTx = ciudades.get(position);
-                break;
-            case R.id.sSraza:
-                razaTx = razas.get(position);
-                break;
-        }
-    }
-
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    public void Consulta() {
+        tipos = new ArrayList<>();
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url("http://" + getString(R.string.ip) + ":8080/buscarPorTipos")
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String rta = response.body().string();
+                    Type listType = new
+                            TypeToken<ArrayList<Tipo>>() {
+                            }.getType();
+                    final ArrayList<Tipo> Tipos = new Gson().fromJson(rta, listType);
+                    tipos.add(0, "");
+                    for (Tipo iter : Tipos) {
+                        tipoDeMascota.add(iter);
+                        if (!tipos.contains(iter.getNombreTipo()))
+                            tipos.add(iter.getNombreTipo());
+                    }
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            tipoAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, tipos);
+                            tipoAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            tipo.setAdapter(tipoAdapter);
+                            tipo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                @Override
+                                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                    busqueda.setTipo(tipos.get(position));
+                                    asignarRazas(position);
+                                    raza.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                        @Override
+                                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                            busqueda.setRaza(razas.get(position));
+                                        }
+
+                                        @Override
+                                        public void onNothingSelected(AdapterView<?> parent) {
+
+                                        }
+                                    });
+                                }
+
+                                @Override
+                                public void onNothingSelected(AdapterView<?> parent) {
+
+                                }
+                            });
+
+
+                        }
+                    });
+
+
+                }
+            }
+
+
+        });
+
+
+    }
+
+    public void busquedaUbicaciones() {
+        departamentos = new ArrayList<>();
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url("http://" + getString(R.string.ip) + ":8080/lugares")
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String rta = response.body().string();
+                    Type listType = new
+                            TypeToken<ArrayList<Lugar>>() {
+                            }.getType();
+                    final ArrayList<Lugar> places = new Gson().fromJson(rta, listType);
+                    departamentos.add(0, "");
+
+                    for (Lugar iter : places) {
+                        lugarMascota.add(iter);
+                        if (!departamentos.contains(iter.getDepartamento()))
+                            departamentos.add(iter.getDepartamento());
+                    }
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            departamentoAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, departamentos);
+                            departamentoAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            departamento.setAdapter(departamentoAdapter);
+                            departamento.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                @Override
+                                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                    busqueda.setDepartamento(departamentos.get(position));
+                                    asignarCiudades(position);
+                                    ciudad.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                        @Override
+                                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                            busqueda.setCiudad(ciudades.get(position));
+                                        }
+
+                                        @Override
+                                        public void onNothingSelected(AdapterView<?> parent) {
+
+                                        }
+                                    });
+                                }
+
+                                @Override
+                                public void onNothingSelected(AdapterView<?> parent) {
+
+                                }
+                            });
+
+
+                        }
+                    });
+
+
+                }
+            }
+
+
+        });
+
+    }
+
 }
